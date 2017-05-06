@@ -137,7 +137,7 @@ input[type=text], input[type=password] {
 /* Moon */
 
 .moon-container {
-	position: relative;
+	position: absolute;
 	top: 100px;
 	left: 50px;
 }
@@ -145,7 +145,27 @@ input[type=text], input[type=password] {
 #moon-object {
 	background: url(../img/moon.png) no-repeat;
 	background-size: contain;
-	width: 10%;
+	width: 110px;
+	height: 110px;
+	display: inline-block;
+    vertical-align: middle;
+}
+
+/* Earth */
+
+.earth-container {
+	position: absolute;
+	bottom: 100px;
+	right: 50px;
+}
+
+#earth-object {
+	background: url(../img/earth.png) no-repeat;
+	background-size: contain;
+	width: 300px;
+	height: 300px;
+	display: inline-block;
+    vertical-align: middle;
 }
 
 /*Footer section*/
