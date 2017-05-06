@@ -1,0 +1,173 @@
+@font-face {
+    font-family: days-regular;
+    src: url(../fonts/Days.otf);
+}
+
+@font-face {
+	font-family: cuprum-regular
+	src: url(../fonts/cuprum_regular.ttf);
+}
+
+html {
+	background: #ccc;
+	min-height: 100%;
+	font-family: sans-serif;
+	display: flex;
+	flex-direction: column;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	background-image: url("../img/stars-background.png"), linear-gradient(to top, #05003E, #004D86);
+	background-size: cover;
+}
+
+/*Header section*/
+
+.header {
+	width: 100%;
+	margin: 0 auto 30px;
+	padding: 10px 0 10px;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row none;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-title {
+	font-family: days-regular;
+	font-size: 25px;
+	color: #fff;
+	margin: 0px 0px 0px 20px;
+}
+
+#admins-section {
+	margin: 0px 20px 0px 0px;
+}
+
+.admins-title {
+	display: inline;
+	font-family: cuprum-regular;
+	font-size: 12pt;
+	color: #fff;
+}
+
+.admins-menu-button {
+	background: url(../img/arrow-down.png) no-repeat;
+	background-size: contain;
+    cursor: pointer;
+    border: none;
+    width: 14px;
+    height: 8px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 500px) {
+    .admins-title {
+    	display: none;
+    }
+}
+
+/*Main section*/
+
+.main {
+	width: 100%;
+	margin: auto;
+	display: flex;
+	flex-grow: 1;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Login form */
+
+.login-content {
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
+	justify-content: center;
+}
+
+.login-moto {
+	font-family: cuprum-regular;
+	font-size: 20pt;
+	color: #fff;
+	text-align: center;
+}
+
+.login-form {
+	width: 300px;
+	margin-top: 20px;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    height: 48px;
+    display: inline-block;
+    padding-left: 20px;
+    margin: 10px 0;
+    border: 1px solid #95989A;
+    box-sizing: border-box;
+    border-radius: 24px;
+    font-family: cuprum-regular;
+    font-size: 12pt;
+}
+
+.login-button {
+	width: 100%;
+	height: 48px;
+	background-color: #11B511;
+    margin: 10px 0;
+    padding: auto;
+    border: none;
+    cursor: pointer;
+    font-family: cuprum-regular;
+    font-size: 13pt;
+    color: #fff;
+    border-radius: 24px;
+}
+
+/* Moon */
+
+.moon-container {
+	position: relative;
+	top: 100px;
+	left: 50px;
+}
+
+#moon-object {
+	background: url(../img/moon.png) no-repeat;
+	background-size: contain;
+	width: 10%;
+}
+
+/*Footer section*/
+
+.footer {
+	background: #020531;
+	width: 100%;
+	color: #eee;
+	margin: 0;
+	padding: 15px;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.footer p {
+	margin: 5px 10px;
+	font-family: cuprum-regular;
+	font-size: 12pt;
+	color: #fff;
+}
+
+.contacts-p {
+	flex-grow: 1;
+}
