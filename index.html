@@ -6,7 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<title>Weather diary</title>
 	<link rel="stylesheet" href="css/main.css">
-	<script src="js/kinvey-html5-sdk.min.js"></script>
 </head>
 
 <body>
@@ -31,7 +30,7 @@
 				<div class="login-form">
 				    <input type="text" placeholder="Логин" name="uname" required>
 				    <input type="password" placeholder="Пароль" name="psw" required>
-				    <button class="login-button" type="submit">ВОЙТИ</button>
+				    <button id="login-button" type="submit">ВОЙТИ</button>
 				</div>
     		</form>
 		</div>
@@ -48,6 +47,9 @@
 		<p>Разработчик: Кулькова М.В. © 2017</p>
 	</div>
 
+	<script src="scripts/kinvey-html5-sdk-3.5.0.min.js"></script>
+	<script src="scripts/jquery-3.2.1.min.js"></script>
+	<script src="scripts/login.js"></script>
 </body>
 
 </html>
