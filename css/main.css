@@ -72,12 +72,6 @@ button:focus, input:focus {
     vertical-align: middle;
 }
 
-@media screen and (max-width: 500px) {
-    .admins-title {
-    	display: none;
-    }
-}
-
 /*Main section*/
 
 .main {
@@ -214,4 +208,20 @@ input[type=text], input[type=password] {
 
 .contacts-p {
 	flex-grow: 1;
+}
+
+@media screen and (max-width: 500px) {
+    .admins-title {
+    	display: none;
+    }
+}
+
+@media screen and (max-width: 800px) and (max-height: 800px) {
+	.moon-container {
+		display: none;
+	}
+
+	.earth-container {
+		display: none;
+	}
 }
