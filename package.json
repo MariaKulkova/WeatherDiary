@@ -17,5 +17,6 @@
   },
   "homepage": "https://github.com/MariaKulkova/WeatherDiary#readme",
   "dependencies": {
+    "handlebars": "^4.0.8"
   }
 }
