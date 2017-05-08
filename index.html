@@ -26,10 +26,10 @@
 
 		<div class="login-content">
     		<div class="login-moto">Наблюдай, исследуй, ставь цели и достигай их</div>
-    		<form action="#">
+    		<form id="login-action-form" action="#">
 				<div class="login-form">
-				    <input type="text" placeholder="Логин" name="uname" required>
-				    <input type="password" placeholder="Пароль" name="psw" required>
+				    <input id="login-username" type="text" placeholder="Логин" name="uname" required>
+				    <input id="login-password" type="password" placeholder="Пароль" name="psw" required>
 				    <button id="login-button" type="submit">ВОЙТИ</button>
 				</div>
     		</form>
@@ -50,6 +50,7 @@
 	<script src="scripts/libraries/kinvey-html5-sdk-3.5.0.min.js"></script>
 	<script src="scripts/libraries/jquery-3.2.1.min.js"></script>
 	<script src="scripts/login.js"></script>
+	<script src="scripts/KinveyAuth.js"></script>
 </body>
 
 </html>
