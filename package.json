@@ -1,0 +1,22 @@
+{
+  "name": "weather-diary",
+  "version": "0.0.1",
+  "description": "The diary for weather conditions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MariaKulkova/WeatherDiary.git"
+  },
+  "author": "Maru Kulkova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MariaKulkova/WeatherDiary/issues"
+  },
+  "homepage": "https://github.com/MariaKulkova/WeatherDiary#readme",
+  "dependencies": {
+    "handlebars": "^4.0.8"
+  }
+}

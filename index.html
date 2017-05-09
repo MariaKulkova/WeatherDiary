@@ -3,9 +3,9 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<title>Weather diary</title>
-	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
@@ -14,31 +14,29 @@
 		<p class="header-title">Дневник погоды</p>
 		<div id="admins-section">
 			<p class="admins-title">Для администраторов</p>
-			<button>ok</button>
+			<span class="admins-menu-button"></span>
 		</div>
 	</div>
 	
 	<div class="main">
 
+		<div class="moon-container">
+			<div class="moon-object"></div>
+		</div>
+
 		<div class="login-content">
     		<div class="login-moto">Наблюдай, исследуй, ставь цели и достигай их</div>
-    		<div class="login-item">
-     			<form action="" method="post" class="form form-login">
-        			<div class="form-field">
-          				<label class="user" for="login-username"><span class="hidden">Username</span></label>
-          				<input id="login-username" type="text" class="form-input" placeholder="Username" required>
-       				 </div>
+    		<form id="login-action-form" action="#">
+				<div class="login-form">
+				    <input id="login-username" type="text" placeholder="Логин" name="uname" required>
+				    <input id="login-password" type="password" placeholder="Пароль" name="psw" required>
+				    <button id="login-button" type="submit">ВОЙТИ</button>
+				</div>
+    		</form>
+		</div>
 
-        			<div class="form-field">
-          				<label class="lock" for="login-password"><span class="hidden">Password</span></label>
-          				<input id="login-password" type="password" class="form-input" placeholder="Password" required>
-        			</div>
-
-        			<div class="form-field">
-          				<input type="submit" value="Log in">
-        			</div>
-      			</form>
-   			 </div>
+		<div class="earth-container">
+			<div class="earth-object"></div>
 		</div>
 
 	</div>
@@ -49,6 +47,10 @@
 		<p>Разработчик: Кулькова М.В. © 2017</p>
 	</div>
 
+	<script src="scripts/libraries/kinvey-html5-sdk-3.5.0.min.js"></script>
+	<script src="scripts/libraries/jquery-3.2.1.min.js"></script>
+	<script src="scripts/login.js"></script>
+	<script src="scripts/KinveyAuth.js"></script>
 </body>
 
 </html>
