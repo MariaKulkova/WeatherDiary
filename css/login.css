@@ -1,6 +1,6 @@
 @font-face {
-    font-family: days-regular;
-    src: url(../fonts/Days.otf);
+    font-family: exo2-bold;
+    src: url(../fonts/Exo2-Bold.otf);
 }
 
 @font-face {
@@ -44,8 +44,8 @@ button:focus, input:focus {
 }
 
 .header-title {
-	font-family: days-regular;
-	font-size: 25px;
+	font-family: exo2-bold;
+	font-size: 24px;
 	color: #fff;
 	margin: 0px 0px 0px 20px;
 }
