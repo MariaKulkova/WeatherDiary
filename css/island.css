@@ -3,6 +3,11 @@
     src: url(../fonts/Exo2-Bold.otf);
 }
 
+@font-face {
+	font-family: cuprum-regular;
+	src: url(../fonts/cuprum_regular.ttf);
+}
+
 html {
 	background: #ccc;
 	min-height: 100%;
@@ -46,7 +51,7 @@ body {
 .header-title {
 	font-family: exo2-bold;
 	font-size: 24px;
-	color: #fff;
+	color: #FFF;
 	margin: 0px 0px 0px 20px;
 }
 
@@ -59,22 +64,97 @@ body {
 }
 
 .navigation li {
-    text-align: center;
-    transition: all 0.3s ease;
-    color: white;
-    font-size: 36px;
+    display: block;
     height: 100px;
+}
+
+.nav-item {
+    display: block;
+    text-decoration: none;
+    padding: 8px;
+    background: #004781;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.nav-item:hover {
+    background: #FFF;
+}
+
+/* Common navigation item */
+
+/* Title label */
+
+.nav-item p {
+    color: #FFF;
+    font-family: cuprum-regular;
+    font-size: 10pt;
+    margin: 8px 0px;
+}
+
+.nav-item:hover p {
+    color: #004781;
+}
+
+/* Item picture */
+
+.nav-item span {
+    display: inline-block;
+    width: 35px;
+    height: 38px;
+    margin: auto;
+}
+
+/* Menu icon */
+
+.nav-item-main {
+    height: 60px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-nav-item {
+    display: block;
+    width: 30px;
+    height: 20px;
+    background: url(../img/menu-icon.png) no-repeat;
+    background-size: contain;
+}
+
+/* Island item */
+
+#island-nav-item {
     background: url(../img/island-icon.png) no-repeat;
     background-size: contain;
-    text-decoration: none;
 }
 
-.navigation li:hover {
-    color: #004781;
-    background: url(../img/island-icon-selected.png) no-repeat, #FFF;
+.nav-item:hover #island-nav-item {
+    background: url(../img/island-icon-selected.png) no-repeat;
     background-size: contain;
 }
 
-.active {
-    background-color: #4CAF50;
+/* Statistis item */
+
+#statistics-nav-item {
+    background: url(../img/island-icon.png) no-repeat;
+    background-size: contain;
+}
+
+.nav-item:hover #statistics-nav-item {
+    background: url(../img/island-icon-selected.png) no-repeat;
+    background-size: contain;
+}
+
+/* Profile item */
+
+#profile-nav-item {
+    background: url(../img/island-icon.png) no-repeat;
+    background-size: contain;
+}
+
+.nav-item:hover #profile-nav-item {
+    background: url(../img/island-icon-selected.png) no-repeat;
+    background-size: contain;
 }
