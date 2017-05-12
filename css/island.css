@@ -158,3 +158,107 @@ body {
     background: url(../img/island-icon-selected.png) no-repeat;
     background-size: contain;
 }
+
+/* Island */
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Island area */
+
+.island-container-wrapper {
+    width: 40%;
+    position: relative;
+}
+
+.island-container-wrapper:before {
+    content: "";
+	display: block;
+	padding-top: 100%;
+}
+
+.island-container {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+}
+
+/* Island ground */
+
+.island-wrapper {
+    width: 70%;
+    position: absolute;
+    left: 10%;
+    bottom: 0px;
+}
+
+.island-wrapper:before {
+    content: "";
+	display: block;
+	padding-top: 85%;
+}
+
+.island {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    background: url(../img/island.png) no-repeat;
+	background-size: contain;
+}
+
+/* Wind indicator */
+
+.flag-wrapper {
+    width: 10%;
+    position: absolute;
+    left: 55%;
+    bottom: 52%;
+}
+
+.flag-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 115%;
+}
+
+.flag {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    background: url(../img/wind-indicator.png) no-repeat;
+	background-size: contain;
+}
+
+/* Cloud */
+
+.cloud-wrapper {
+    width: 30%;
+    position: absolute;
+    right: 30%;
+    top: 15%;
+}
+
+.cloud-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 50%;
+}
+
+.cloud {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    background: url(../img/cloud-big.png) no-repeat;
+	background-size: contain;
+}
