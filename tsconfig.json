@@ -3,6 +3,6 @@
         "sourceMap":  true
     },
     "include": [
-        "scripts/*.ts"
+        "scripts/app/*.ts"
     ]
 }

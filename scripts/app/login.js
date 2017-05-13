@@ -1,4 +1,4 @@
-/// <reference path="typings/jquery.d.ts"/>
+/// <reference path="../typings/jquery.d.ts"/>
 /// <reference path="./KinveyAuth.ts"/>
 var LoginForm = (function () {
     function LoginForm(container, authManager) {
