@@ -169,6 +169,22 @@ body {
     justify-content: center;
 }
 
+/* Bottom clouds */
+
+.clouds-back {
+    position: absolute; 
+    bottom: 0; left: 100px; right: 0; height: 20%;
+    background: url(../img/bottom-clouds-back.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+.clouds-front {
+    position: absolute; 
+    bottom: 0; left: 100px; right: 0; height: 25%;
+    background: url(../img/bottom-clouds-front.png) no-repeat;
+    background-size: 100% 100%;
+}
+
 /* Island area */
 
 .island-container-wrapper {
@@ -220,8 +236,8 @@ body {
 .flag-wrapper {
     width: 10%;
     position: absolute;
-    left: 55%;
-    bottom: 52%;
+    left: 52%;
+    bottom: 55%;
 }
 
 .flag-wrapper:before {
@@ -246,7 +262,7 @@ body {
     width: 30%;
     position: absolute;
     right: 30%;
-    top: 15%;
+    top: 10%;
 }
 
 .cloud-wrapper:before {
