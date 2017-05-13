@@ -169,6 +169,18 @@ body {
     justify-content: center;
 }
 
+/* Sun circle slider */
+
+.circle-slider {
+    position: absolute;
+    top: 0; left: 0;
+    height: 50%;
+    width: 50%;
+    /*background: #FFF;*/
+    /*background-size: 100% 100%;*/
+    /*padding: 20px;*/
+}
+
 /* Bottom clouds */
 
 .clouds-back {
