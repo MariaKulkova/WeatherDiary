@@ -163,14 +163,16 @@ body {
 
 .main {
     display: flex;
-    align-items: center;
+    flex-flow: row wrap;
+    flex-grow: 1;
+    align-items: flex-end;
     justify-content: center;
 }
 
 /* Island area */
 
 .island-container-wrapper {
-    width: 40%;
+    width: 50%;
     position: relative;
 }
 
@@ -191,7 +193,7 @@ body {
 /* Island ground */
 
 .island-wrapper {
-    width: 70%;
+    width: 57%;
     position: absolute;
     left: 10%;
     bottom: 0px;
@@ -200,7 +202,7 @@ body {
 .island-wrapper:before {
     content: "";
 	display: block;
-	padding-top: 85%;
+	padding-top: 110%;
 }
 
 .island {
