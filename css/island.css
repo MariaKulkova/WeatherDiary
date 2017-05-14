@@ -184,12 +184,12 @@ body {
 .temperature-label {
     position: absolute;
     display: inline-flex;
-    top: 0;
+    top: -1%;
     left: 40%;
 	font-family: exo2-bold;
-	font-size: 24px;
+	font-size: 4vmin;
 	color: #FFF;
-	margin: 0px 0px 0px 70px;
+	margin: 0px 0px 0px 12%;
 }
 
 .temperature-label p {
@@ -306,4 +306,40 @@ body {
     right: 0px;
     background: url(../img/cloud-big.png) no-repeat;
 	background-size: contain;
+}
+
+/* Compass */
+
+.compass-wrapper {
+    width: 30%;
+    position: absolute;
+    right: -5%;
+    top: 45%;
+}
+
+.compass-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.compass {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    overflow: visible;
+    transform-origin: center center;
+    background: url(../img/compas-scale.png) no-repeat;
+	background-size: contain; 
+}
+
+.compass-drag-handler {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    overflow: visible;
 }
