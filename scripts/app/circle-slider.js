@@ -1,36 +1,45 @@
-var width = "100%", height = "100%";
+// interface SliderValueChangedListener {
+//   (sender: QuaterSlider, angle: number): void;
+// }
+// class QuaterSlider {
+//   // var width = "100%",
+//   //     height = "100%";
+//   // var circumference_r = 100;
+//   listener: SliderValueChangedListener
+//   constructor(listener: SliderValueChangedListener) {
+//     this.listener = listener
+//   }
+//   draw() {
+//   }
+// }
 var circumference_r = 100;
-var svg = d3.select("div.circle-slider").append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", "translate(" + 160 + "," + 160 + ")");
-var container = svg.append("g");
-var arc = d3.arc()
-    .innerRadius(90)
-    .outerRadius(100)
-    .startAngle(0 * (Math.PI / 180)) //converting from degs to radians
-    .endAngle(-90 * (Math.PI / 180)); //just radians
-var circumference = container.append("path")
-    .attr("d", arc)
-    .attr("class", "circumference");
+var svg = d3.select("svg.slider-container")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 100 100");
 var handle = [{
         x: 0,
-        y: -circumference_r
+        y: -100,
+        angle: ""
     }];
 var drag = d3.drag()
     .subject(function (d) { return d; })
     .on("start", dragstarted)
     .on("drag", dragged)
     .on("end", dragended);
-var handle_circle = container.append("g")
+var handle_circle = svg.append("g")
+    .attr("transform", "translate(" + (100 - 15) + "," + (100 - 15) + ")")
     .attr("class", "dot")
-    .selectAll('circle')
+    .selectAll('image')
     .data(handle)
-    .enter().append("circle")
-    .attr("r", 5)
-    .attr("cx", function (d) { return d.x; })
-    .attr("cy", function (d) { return d.y; })
+    .enter().append("image")
+    .attr("class", "sun-image")
+    .attr("height", "40")
+    .attr("width", "40")
+    .attr("xlink:href", "img/sun-plain.png")
+    .attr("x", function (d) { return d.x; })
+    .attr("y", function (d) { return d.y; })
+    .style("transform", function (d) { return d.angle; })
+    .style("transform-origin", "center center")
     .call(drag);
 function dragstarted(d) {
     d3.event.sourceEvent.stopPropagation();
@@ -43,8 +52,9 @@ function dragged(d) {
     var alphaDegrees = alpha * 180 / Math.PI;
     if (alphaDegrees >= 90 && d3.event.y <= 0) {
         d3.select(this)
-            .attr("cx", d.x = circumference_r * Math.cos(alpha))
-            .attr("cy", d.y = -circumference_r * Math.sin(alpha));
+            .attr("x", d.x = circumference_r * Math.cos(alpha))
+            .attr("y", d.y = -circumference_r * Math.sin(alpha))
+            .style("transform", d.angle = "rotate(" + (alphaDegrees - 90) + "deg");
     }
 }
 function dragended(d) {
