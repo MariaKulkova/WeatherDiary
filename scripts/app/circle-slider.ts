@@ -20,6 +20,8 @@ declare var d3: any;
 //   }
 // }
 
+var sunAngleCallback;
+
 var circumference_r = 100;
 
 var svg = d3.select("svg.slider-container")
@@ -44,7 +46,6 @@ var handle_circle = svg.append("g")
     .selectAll('image')
   .data(handle)
     .enter().append("image")
-  .attr("class", "sun-image")
   .attr("height", "40")
   .attr("width", "40")
   .attr("xlink:href", "img/sun-plain.png")
@@ -67,10 +68,12 @@ function dragged(d) {
   var alphaDegrees = alpha * 180 / Math.PI;
   
   if (alphaDegrees >= 90 && d3.event.y <= 0) {
+    var angle = alphaDegrees - 90;
+    sunAngleCallback(angle)
     d3.select(this)
       .attr("x", d.x = circumference_r * Math.cos(alpha))
       .attr("y", d.y = -circumference_r * Math.sin(alpha))
-      .style("transform", d.angle = "rotate(" + (alphaDegrees-90) + "deg");
+      .style("transform", d.angle = "rotate(" + angle + "deg)");
   }
 }
 

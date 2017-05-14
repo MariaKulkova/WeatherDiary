@@ -181,6 +181,21 @@ body {
     background-size: 100% 100%;
 }
 
+.temperature-label {
+    position: absolute;
+    display: inline-flex;
+    top: 0;
+    left: 40%;
+	font-family: exo2-bold;
+	font-size: 24px;
+	color: #FFF;
+	margin: 0px 0px 0px 70px;
+}
+
+.temperature-label p {
+	margin: 0;
+}
+
 /* Bottom clouds */
 
 .clouds-back {
