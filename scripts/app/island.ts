@@ -1,6 +1,11 @@
 declare var d3: any;
+/// <reference path="./circle-slider.ts"/>
 
-sunAngleCallback = function(angle) {
-    var value = (90 - Math.round(angle)) / 2;
-    d3.select("p.temperature-value").text(value)
-}
+let svg = d3.select("svg.slider-container")
+let sunAngleCallback: (value: number) => void = function(angle) { 
+    let formattedValue = (90 - Math.round(angle)) / 2;
+    d3.select("p.temperature-value").text(formattedValue)
+};
+
+let sunSlider = new Slider.CircleSlider(svg, "img/sun-plain.png", 0.4, sunAngleCallback)
+sunSlider.render()

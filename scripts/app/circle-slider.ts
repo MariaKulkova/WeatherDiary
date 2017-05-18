@@ -1,83 +1,95 @@
-declare var d3: any;
+/// <reference path="../../node_modules/@types/d3/index.d.ts"/>
 
-// interface SliderValueChangedListener {
-//   (sender: QuaterSlider, angle: number): void;
-// }
+namespace Slider {
 
-// class QuaterSlider {
-//   // var width = "100%",
-//   //     height = "100%";
-//   // var circumference_r = 100;
+  export interface DragCoordinates {
+    x: number
+    y: number
+    rotateTransformation: string
+  }
 
-//   listener: SliderValueChangedListener
+  export class CircleSlider {
+    private readonly width: number = 100
+    private readonly height: number = 100
+    private readonly sliderRadius: number = 100
 
-//   constructor(listener: SliderValueChangedListener) {
-//     this.listener = listener
-//   }
+    private sliderContainer: d3.Selection<any, any, any, any>
+    private imageUrl: string
+    private dragElementSizeRatio: number
+    private onValueChangedListener: (value: number) => void
 
-//   draw() {
+    private dragElement: d3.Selection<any, any, any, any>
+    private startAngle: number = 0
+    private endAngle: number = 90
+
+    constructor(sliderContainer: d3.Selection<any, any, any, any>,
+                imageUrl: string,
+                dragElementSizeRatio: number,
+                onValueChangedListener: (value: number) => void) {
+        this.sliderContainer = sliderContainer
+        this.imageUrl = imageUrl
+        this.dragElementSizeRatio = this.width * dragElementSizeRatio
+        this.onValueChangedListener = onValueChangedListener
+    }
+
+    public render() {
+      this.sliderContainer
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 " + this.width + " " + this.height)
+      
+      let dragstarted = (d: DragCoordinates) => { 
+        d3.event.sourceEvent.stopPropagation();
+        this.dragElement.classed("dragging", true); 
+      }
+
+      let dragged = (d: DragCoordinates) => {
+        var d_from_origin = Math.sqrt(Math.pow(d3.event.x, 2) + Math.pow(d3.event.y, 2));
     
-//   }
-// }
+        var alpha = Math.acos(d3.event.x/d_from_origin);
+        var alphaDegrees = alpha * 180 / Math.PI;
+        
+        if (alphaDegrees >= 90 && d3.event.y <= 0) {
+          console.log(d3.select(this))
+          var angle = alphaDegrees - 90;
+          console.log()
+          
+          this.onValueChangedListener(angle)
+          this.dragElement
+            .attr("x", d.x = this.sliderRadius * Math.cos(alpha))
+            .attr("y", d.y = -this.sliderRadius * Math.sin(alpha))
+            .style("transform", d.rotateTransformation = "rotate(" + angle + "deg)");
+        }
+      }
 
-var sunAngleCallback;
+      let dragended = (d: DragCoordinates) => {
+        this.dragElement.classed("dragging", false);
+      }
 
-var circumference_r = 100;
+      let drag = d3.drag()
+        .subject(function(d) { return d; })
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
 
-var svg = d3.select("svg.slider-container")
-  .attr("preserveAspectRatio", "xMinYMin meet")
-  .attr("viewBox", "0 0 100 100")
+      let handleDrag: [DragCoordinates] = [{ x: -10, y: -this.height, rotateTransformation: "" }]
 
-var handle = [{
-  x: 0,
-  y: -100,
-  angle: ""
-}];
+      this.dragElement = this.sliderContainer.append("g")
+        .attr("transform", "translate(" + (this.width - 15) + "," + (this.height - 15) + ")")
+        .selectAll('image')
+        .data(handleDrag)
+        .enter().append("image")
 
-var drag = d3.drag()
-  .subject(function(d) { return d; })
-  .on("start", dragstarted)
-  .on("drag", dragged)
-  .on("end", dragended);
-
-var handle_circle = svg.append("g")
-  .attr("transform", "translate(" + (100 - 15) + "," + (100 - 15) + ")")
-  .selectAll('image')
-  .data(handle)
-  .enter().append("image")
-  .attr("class", "sun")
-  .attr("height", "40")
-  .attr("width", "40")
-  .attr("xlink:href", "img/sun-plain.png")
-  .attr("x", function(d) { return d.x;})
-  .attr("y", function(d) { return d.y;})
-  .style("transform", function(d) { return d.angle;})
-  .style("transform-origin", "center center")  
-  .call(drag);
-
-function dragstarted(d) {
-  d3.event.sourceEvent.stopPropagation();
-  d3.select(this)
-    .classed("dragging", true);
-}
-
-function dragged(d) {  
-  var d_from_origin = Math.sqrt(Math.pow(d3.event.x, 2) + Math.pow(d3.event.y, 2));
-  
-  var alpha = Math.acos(d3.event.x/d_from_origin);
-  var alphaDegrees = alpha * 180 / Math.PI;
-  
-  if (alphaDegrees >= 90 && d3.event.y <= 0) {
-    var angle = alphaDegrees - 90;
-    sunAngleCallback(angle)
-    d3.select(this)
-      .attr("x", d.x = circumference_r * Math.cos(alpha))
-      .attr("y", d.y = -circumference_r * Math.sin(alpha))
-      .style("transform", d.angle = "rotate(" + angle + "deg)");
+      this.dragElement
+        .attr("class", "sun")
+        .attr("height", this.dragElementSizeRatio)
+        .attr("width", this.dragElementSizeRatio)
+        .attr("xlink:href", this.imageUrl)
+        .attr("x", function(d) { return d.x; })
+        .attr("y", function(d) { return d.y; })
+        .style("transform", function(d) { return d.rotateTransformation; })
+        .style("transform-origin", "center center")  
+        .call(drag);
+    }
   }
 }
 
-function dragended(d) {
-  d3.select(this)
-    .classed("dragging", false);
-}

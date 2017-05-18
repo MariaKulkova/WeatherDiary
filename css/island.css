@@ -343,3 +343,33 @@ body {
     right: 0px;
     overflow: visible;
 }
+
+.windForce {
+    position: absolute;
+    left: 20%;
+    bottom: 20%;
+    top: 20%;
+    right: 20%;
+    overflow: visible;
+    transform-origin: center center;
+    background: url(../img/compas-scale.png) no-repeat;
+	background-size: contain; 
+}
+
+.windForce-drag-handler {
+    position: absolute;
+    left: 20%;
+    bottom: 20%;
+    top: 20%;
+    right: 20%;
+    overflow: visible;
+}
+
+.drag-consumer {
+    position: absolute;
+    left: 40%;
+    bottom: 40%;
+    top: 40%;
+    right: 40%;
+    overflow: visible;
+}
