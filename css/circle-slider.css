@@ -1,4 +1,4 @@
-.slider-container {
+.sun-slider-container {
   position: absolute;
   overflow: visible;
   top: 0; left: 0; bottom: 0; right: 0;
@@ -7,3 +7,13 @@
 .sun:hover {
   cursor: pointer;
 }
+
+.wind-slider-container {
+  position: absolute;
+  overflow: visible;
+  top: 0px; left: 0px; bottom: 0px; right: 0px;
+  margin: 30%;
+  background: url(../img/windforce-path.png) no-repeat;
+	background-size: contain; 
+}
+
