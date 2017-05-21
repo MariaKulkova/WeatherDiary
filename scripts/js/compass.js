@@ -38,8 +38,11 @@ function compassDragged() {
 }
 function compassDragEnded() {
     var angle = getCompassAngle(translateCompassCoordinates(d3.event));
+    compassOriginAngle += (angle - compassAngle);
+    // Determines the step for slider sticking position in degrees
     var stickAngle = 45;
-    var angleAmount = Math.round(angle / stickAngle);
+    // Calculates total angle rounding it to the closest stick position
+    var angleAmount = Math.round(compassOriginAngle / stickAngle);
     rotateCompass(compassOriginAngle = stickAngle * angleAmount);
 }
 rotateCompass(0);
