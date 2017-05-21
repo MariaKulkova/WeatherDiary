@@ -31,8 +31,8 @@ namespace Slider {
     }
 
     private checkAngle(angle: number) {
-      if (angle < 0 || angle > 360) {
-        // throw new EvalError("")
+      if (angle < -360 || angle > 360) {
+        throw new EvalError("Angle value " + angle + " is invalid")
       }
     }
 
@@ -60,7 +60,8 @@ namespace Slider {
     private onValueChangedListener: (value: number) => void
     private dragElement: d3.Selection<any, any, any, any>
 
-    private currentAngle: number
+    private savedVector: Point
+    private cumulativeAngle: number = 0
 
     constructor(sliderContainer: d3.Selection<any, any, any, any>,
                 imageUrl: string,
@@ -72,6 +73,10 @@ namespace Slider {
         this.dragElementSizeRatio = this.width * dragElementSizeRatio
         this.rotateAttributes = rotateAttributes
         this.onValueChangedListener = onValueChangedListener
+
+        let startAngleRad = this.degreesToRadians(this.rotateAttributes.startAngle)
+        this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad),
+                                    -(this.height * this.rotateAttributes.radius) * Math.sin(startAngleRad))
     }
 
     public render() {
@@ -81,26 +86,32 @@ namespace Slider {
       
       let dragstarted = (d: DragCoordinates) => { 
         d3.event.sourceEvent.stopPropagation();
-        this.dragElement.classed("dragging", true); 
+        this.dragElement.classed("dragging", true);
       }
 
       let dragged = (d: DragCoordinates) => {
-        var d_from_origin = Math.sqrt(Math.pow(d3.event.x, 2) + Math.pow(d3.event.y, 2));
-        var alpha = Math.acos(d3.event.x / d_from_origin);
-        if (d3.event.y > 0) {
-          alpha = Math.PI * 2 - alpha
-        }
-        var alphaDegrees = alpha * 180 / Math.PI;
-        console.log(alpha)
+        let currentVector = new Point(d3.event.x, d3.event.y)
+        let currentVectorAngle = this.angleForPoint(currentVector)
         
-        if (alphaDegrees >= this.rotateAttributes.startAngle && alphaDegrees <= this.rotateAttributes.endAngle) {
-          var angle = (alphaDegrees - this.rotateAttributes.startAngle) / (this.rotateAttributes.endAngle - this.rotateAttributes.startAngle);
-          this.onValueChangedListener(angle)
+        // Determine rotation limitation
+        let oldVectorAngle = this.angleForPoint(this.savedVector)
+        let deltaAngle = this.angleBetweenVectors(this.savedVector, currentVector)
+        if (this.isRotateClockwise(this.savedVector, currentVector)) {
+          deltaAngle = -deltaAngle
+        }
+        this.cumulativeAngle -= this.radiansToDegrees(deltaAngle)
+
+        let alphaDegrees = this.radiansToDegrees(currentVectorAngle)
+        let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle)
+        if (this.cumulativeAngle <= arcLength && this.cumulativeAngle >= 0) {
+          var progress = this.cumulativeAngle / arcLength
+          this.onValueChangedListener(progress)
           this.dragElement
-            .attr("x", d.x = (this.width * this.rotateAttributes.radius) * Math.cos(alpha))
-            .attr("y", d.y = -(this.height * this.rotateAttributes.radius) * Math.sin(alpha))
+            .attr("x", d.x = (this.width * this.rotateAttributes.radius) * Math.cos(currentVectorAngle))
+            .attr("y", d.y = -(this.height * this.rotateAttributes.radius) * Math.sin(currentVectorAngle))
             .style("transform", d.rotateTransformation = "rotate(" + alphaDegrees + "deg)");
         }
+        this.savedVector = currentVector
       }
 
       let dragended = (d: DragCoordinates) => {
@@ -114,8 +125,8 @@ namespace Slider {
         .on("end", dragended);
 
       let handleDrag: [DragCoordinates] = [{ 
-        x: (this.width * this.rotateAttributes.radius) * Math.cos(this.rotateAttributes.startAngle * Math.PI / 180), 
-        y: -(this.height * this.rotateAttributes.radius) * Math.sin(this.rotateAttributes.startAngle * Math.PI / 180), 
+        x: this.savedVector.x, 
+        y: this.savedVector.y, 
         rotateTransformation: ""
       }]
 
@@ -138,6 +149,45 @@ namespace Slider {
         .style("transform-origin", "center center")  
         .call(drag);
     }
+
+    // Helpers methods
+
+    private isRotateClockwise(start: Point, end: Point): boolean {
+      let orientedArea = start.y * end.x - start.x * end.y
+      return orientedArea < 0
+    }
+
+    private angleBetweenVectors(start: Point, end: Point): number {
+      let startLength = Math.sqrt(Math.pow(start.x, 2) + Math.pow(start.y, 2))
+      let endLength = Math.sqrt(Math.pow(end.x, 2) + Math.pow(end.y, 2))
+      let cosValue = (start.x * end.x + start.y * end.y) / (startLength * endLength)
+      var alpha = Math.acos(this.roundNumber(cosValue, 5))
+      return alpha
+    }
+
+    private angleForPoint(point: Point): number {
+      var currentVectorLength = Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2));
+      var alpha = Math.acos(point.x / currentVectorLength);
+      if (point.y > 0) {
+        alpha = Math.PI * 2 - alpha
+      }
+      return alpha
+    }
+
+    private roundNumber(value: number, precision: number): number {
+      let factor = Math.pow(10, precision)
+      let tempNumber = value * factor
+      var roundedTempNumber = Math.round(tempNumber)
+      return roundedTempNumber / factor
+    }
+
+    private degreesToRadians(angle: number): number {
+      return angle * Math.PI / 180
+    }
+
+    private radiansToDegrees(angle: number): number {
+      return angle * 180 / Math.PI
+    }
+
   }
 }
-
