@@ -8,27 +8,69 @@ namespace Slider {
     rotateTransformation: string
   }
 
+  export class RotateAttributes {
+    centerX: number
+    centerY: number
+    radius: number
+    startAngle: number
+    endAngle: number
+
+    constructor(centerX: number,
+                centerY: number,
+                radius: number,
+                startAngle: number,
+                endAngle: number) {
+      this.checkAngle(startAngle)
+      this.checkAngle(endAngle)
+
+      this.centerX = centerX
+      this.centerY = centerY
+      this.radius = radius
+      this.startAngle = startAngle
+      this.endAngle = endAngle
+    }
+
+    private checkAngle(angle: number) {
+      if (angle < 0 || angle > 360) {
+        // throw new EvalError("")
+      }
+    }
+
+  }
+
+  class Point {
+    x: number
+    y: number
+
+    constructor(x: number,
+                y: number) {
+      this.x = x
+      this.y = y
+    }
+  }
+
   export class CircleSlider {
     private readonly width: number = 100
     private readonly height: number = 100
-    private readonly sliderRadius: number = 100
 
     private sliderContainer: d3.Selection<any, any, any, any>
     private imageUrl: string
     private dragElementSizeRatio: number
+    private rotateAttributes: RotateAttributes
     private onValueChangedListener: (value: number) => void
-
     private dragElement: d3.Selection<any, any, any, any>
-    private startAngle: number = 0
-    private endAngle: number = 90
+
+    private currentAngle: number
 
     constructor(sliderContainer: d3.Selection<any, any, any, any>,
                 imageUrl: string,
                 dragElementSizeRatio: number,
+                rotateAttributes: RotateAttributes,
                 onValueChangedListener: (value: number) => void) {
         this.sliderContainer = sliderContainer
         this.imageUrl = imageUrl
         this.dragElementSizeRatio = this.width * dragElementSizeRatio
+        this.rotateAttributes = rotateAttributes
         this.onValueChangedListener = onValueChangedListener
     }
 
@@ -44,20 +86,20 @@ namespace Slider {
 
       let dragged = (d: DragCoordinates) => {
         var d_from_origin = Math.sqrt(Math.pow(d3.event.x, 2) + Math.pow(d3.event.y, 2));
-    
-        var alpha = Math.acos(d3.event.x/d_from_origin);
+        var alpha = Math.acos(d3.event.x / d_from_origin);
+        if (d3.event.y > 0) {
+          alpha = Math.PI * 2 - alpha
+        }
         var alphaDegrees = alpha * 180 / Math.PI;
+        console.log(alpha)
         
-        if (alphaDegrees >= 90 && d3.event.y <= 0) {
-          console.log(d3.select(this))
-          var angle = alphaDegrees - 90;
-          console.log()
-          
+        if (alphaDegrees >= this.rotateAttributes.startAngle && alphaDegrees <= this.rotateAttributes.endAngle) {
+          var angle = (alphaDegrees - this.rotateAttributes.startAngle) / (this.rotateAttributes.endAngle - this.rotateAttributes.startAngle);
           this.onValueChangedListener(angle)
           this.dragElement
-            .attr("x", d.x = this.sliderRadius * Math.cos(alpha))
-            .attr("y", d.y = -this.sliderRadius * Math.sin(alpha))
-            .style("transform", d.rotateTransformation = "rotate(" + angle + "deg)");
+            .attr("x", d.x = (this.width * this.rotateAttributes.radius) * Math.cos(alpha))
+            .attr("y", d.y = -(this.height * this.rotateAttributes.radius) * Math.sin(alpha))
+            .style("transform", d.rotateTransformation = "rotate(" + alphaDegrees + "deg)");
         }
       }
 
@@ -71,10 +113,16 @@ namespace Slider {
         .on("drag", dragged)
         .on("end", dragended);
 
-      let handleDrag: [DragCoordinates] = [{ x: -10, y: -this.height, rotateTransformation: "" }]
+      let handleDrag: [DragCoordinates] = [{ 
+        x: (this.width * this.rotateAttributes.radius) * Math.cos(this.rotateAttributes.startAngle * Math.PI / 180), 
+        y: -(this.height * this.rotateAttributes.radius) * Math.sin(this.rotateAttributes.startAngle * Math.PI / 180), 
+        rotateTransformation: ""
+      }]
 
+      let translateX = this.width * this.rotateAttributes.centerX - this.dragElementSizeRatio / 2
+      let translateY = this.height * this.rotateAttributes.centerY - this.dragElementSizeRatio / 2
       this.dragElement = this.sliderContainer.append("g")
-        .attr("transform", "translate(" + (this.width - 15) + "," + (this.height - 15) + ")")
+        .attr("transform", "translate(" + translateX + "," + translateY + ")")
         .selectAll('image')
         .data(handleDrag)
         .enter().append("image")
