@@ -8,6 +8,8 @@ class IslandArea {
         let sunSlider = IslandArea.circleSliderForAttributes(d3.select("svg.sun-slider-container"), "img/sun-plain.png", 0.4, new Slider.Point(1, 1), 0.95, 180, 90, temperatureCallback);
         sunSlider.render();
         let windForceCallback = function (progress) {
+            let formattedValue = Math.round(20 * progress);
+            d3.select("p.windforce-value").text(formattedValue + "м/с");
         };
         let windSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Slider.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
         windSlider.render();

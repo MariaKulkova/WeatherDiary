@@ -184,9 +184,8 @@ body {
 .temperature-label {
     position: absolute;
     display: inline-flex;
-    top: -1%;
-    left: 40%;
-	font-family: exo2-bold;
+    top: -1%; left: 40%;
+	font-family: cuprum-regular;
 	font-size: 4vmin;
 	color: #FFF;
 	margin: 0px 0px 0px 12%;
@@ -365,11 +364,19 @@ body {
     overflow: visible;
 }
 
-.drag-consumer {
+.windforce-label {
     position: absolute;
-    left: 40%;
-    bottom: 40%;
-    top: 40%;
-    right: 40%;
-    overflow: visible;
+    top: 0px; left: 0px; bottom: 0px; right: 0px;
+    margin: 40% 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.windforce-label p {
+	margin: 0;
+    font-family: cuprum-regular;
+	font-size: 3vmin;
+	color: #FFF;
 }

@@ -15,7 +15,9 @@ class IslandArea {
             temperatureCallback)
         sunSlider.render()
         
-        let windForceCallback: (value: number) => void = function(progress) { 
+        let windForceCallback: (value: number) => void = function(progress) {
+            let formattedValue = Math.round(20 * progress)
+            d3.select("p.windforce-value").text(formattedValue + "м/с") 
         };
         let windSlider = IslandArea.circleSliderForAttributes(
             d3.select("svg.wind-slider-container"),
