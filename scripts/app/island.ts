@@ -6,6 +6,12 @@ class IslandArea {
         let temperatureCallback: (value: number) => void = function(progress) { 
             let formattedValue = Math.round(120 * progress - 60)
             d3.select("p.temperature-value").text(formattedValue)
+            let progressColor = [Math.round(95 + (0 - 95) * progress), 
+                                 Math.round(201 + (206 - 201) * progress), 
+                                 Math.round(226 + (255 - 226) * progress)]
+            let styleString = "linear-gradient(to top, rgb(255, 255, 255), rgb(" + progressColor.join(",") + "))"
+            console.log(styleString)
+            $("body").css("background-image", styleString)
         };
         let sunSlider = IslandArea.circleSliderForAttributes(
             d3.select("svg.sun-slider-container"),
