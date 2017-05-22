@@ -24,6 +24,7 @@ var Slider;
             this.y = y;
         }
     }
+    Slider.Point = Point;
     class CircleSlider {
         constructor(sliderContainer, imageUrl, dragElementSizeRatio, rotateAttributes, onValueChangedListener) {
             this.width = 100;
