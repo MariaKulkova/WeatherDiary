@@ -2,7 +2,28 @@ declare var d3: any;
 /// <reference path="./circle-slider.ts"/>
 
 class IslandArea {
-    render() {
+
+    private clouds: Array<JQuery>
+    private cloudButtonTapsCount: number = 0
+
+    constructor() {
+        this.clouds = [$(".cloud-big"), $(".cloud-small"), $(".cloud-medium")]
+
+        let cloudButton = $(".tool-button.cloud")
+        cloudButton.on("click", (e: BaseJQueryEventObject) => {
+            e.preventDefault()
+            this.cloudButtonTapsCount += 1
+            if (this.cloudButtonTapsCount > this.clouds.length) {
+                this.cloudButtonTapsCount = 0
+                this.hideClouds()
+            }
+            else {
+                this.clouds[this.cloudButtonTapsCount - 1].css("display", "block")
+            }
+        })
+    }
+    
+    public render() {
         let temperatureCallback: (value: number) => void = function(progress) { 
             let formattedValue = Math.round(120 * progress - 60)
             d3.select("p.temperature-value").text(formattedValue)
@@ -32,6 +53,12 @@ class IslandArea {
             new Slider.Point(0.5, 0.5), 0.5, 225, -45,
             windForceCallback)
         windSlider.render()
+    }
+
+    private hideClouds() {
+        for (let item of this.clouds) {
+            item.css("display", "none")
+        }
     }
 
     static circleSliderForAttributes(container: d3.Selection<any, any, any, any>,
