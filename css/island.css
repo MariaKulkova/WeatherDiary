@@ -282,22 +282,22 @@ body {
 	background-size: contain;
 }
 
-/* Cloud */
+/* Clouds */
 
-.cloud-wrapper {
+.cloud-big-wrapper {
     width: 30%;
     position: absolute;
     right: 30%;
-    top: 10%;
+    top: 17%;
 }
 
-.cloud-wrapper:before {
+.cloud-big-wrapper:before {
     content: "";
     display: block;
     padding-top: 50%;
 }
 
-.cloud {
+.cloud-big {
     position: absolute;
     left: 0px;
     bottom: 0px;
@@ -305,6 +305,55 @@ body {
     right: 0px;
     background: url(../img/cloud-big.png) no-repeat;
 	background-size: contain;
+    display: none;
+}
+
+.cloud-medium-wrapper {
+    width: 18%;
+    position: absolute;
+    left: 23%;
+    top: 12%;
+}
+
+.cloud-medium-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 50%;
+}
+
+.cloud-medium {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    background: url(../img/cloud-medium.png) no-repeat;
+	background-size: contain;
+    display: none;
+}
+
+.cloud-small-wrapper {
+    width: 15%;
+    position: absolute;
+    left: 15%;
+    top: 25%;
+}
+
+.cloud-small-wrapper:before {
+    content: "";
+    display: block;
+    padding-top: 60%;
+}
+
+.cloud-small {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    right: 0px;
+    background: url(../img/cloud-small.png) no-repeat;
+	background-size: contain;
+    display: none;
 }
 
 /* Compass */
