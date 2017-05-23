@@ -429,3 +429,45 @@ body {
 	font-size: 3vmin;
 	color: #FFF;
 }
+
+/* Tools panel */
+
+.tools-container {
+    position: absolute;
+    top: 0; right: 0;
+    width: 7%;
+    height: 25%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.tool-button {
+    display: flex;
+    height: 28%;
+    background-color: #FFF;
+    border: none;
+    cursor: pointer;
+    border-radius: 20%;
+}
+
+.tool-button span {
+    flex-grow: 1;
+    margin: 20% 10%;
+}
+
+.tool-cloud {
+    background: url(../img/cloud-tool.png) center center no-repeat;
+    background-size: contain;
+}
+
+.tool-rain {
+    background: url(../img/rain-tool.png) center center no-repeat;
+    background-size: contain;
+}
+
+.tool-rainbow {
+    background: url(../img/rainbow-tool.png) center center no-repeat;
+    background-size: contain;
+}
