@@ -3,6 +3,29 @@
     src: url(../fonts/Exo2-Bold.otf);
 }
 
+/* Modal behavior */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    margin: 15% auto;
+    padding: 20px;
+    width: 30%;
+    height: auto;
+}
+
+/* Datepicker */
+
 .ui-datepicker {
     width: 350px;
     height: auto;

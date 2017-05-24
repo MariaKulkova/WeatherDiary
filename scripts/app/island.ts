@@ -21,6 +21,19 @@ class IslandArea {
                 this.clouds[this.cloudButtonTapsCount - 1].css("display", "block")
             }
         })
+
+        let dateButton = $(".header-date")
+        dateButton.on("click", (e: BaseJQueryEventObject) => {
+            e.preventDefault()
+            $(".modal").css("display", "block")
+        })
+
+        let modal = document.getElementById("datepicker-modal");
+        window.onclick = (e: MouseEvent) => {
+            if (e.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     }
     
     public render() {
