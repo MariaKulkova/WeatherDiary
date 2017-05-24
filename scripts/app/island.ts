@@ -81,4 +81,12 @@ class IslandArea {
 $(() => {
     let island = new IslandArea()
     island.render()
+
+    $("#datepicker").datepicker({
+      inline: true,
+      showOtherMonths: true,
+      dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" ],
+      monthNames: [ "Январь","Февраль","Март","Апрель","Май","Июнь", "Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+      firstDay: 1
+    });
 });

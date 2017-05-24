@@ -3,7 +3,6 @@ class IslandArea {
     constructor() {
         this.cloudButtonTapsCount = 0;
         this.clouds = [$(".cloud-big"), $(".cloud-small"), $(".cloud-medium")];
-        console.log(this.clouds);
         let cloudButton = $(".tool-button.cloud");
         cloudButton.on("click", (e) => {
             e.preventDefault();
@@ -16,11 +15,6 @@ class IslandArea {
                 this.clouds[this.cloudButtonTapsCount - 1].css("display", "block");
             }
         });
-    }
-    hideClouds() {
-        for (let item of this.clouds) {
-            item.css("display", "none");
-        }
     }
     render() {
         let temperatureCallback = function (progress) {
@@ -42,6 +36,11 @@ class IslandArea {
         let windSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Slider.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
         windSlider.render();
     }
+    hideClouds() {
+        for (let item of this.clouds) {
+            item.css("display", "none");
+        }
+    }
     static circleSliderForAttributes(container, dragItemPicture, dragItemSizeRatio, rotateAnchorPoint, rotateRadiusRatio, startAngle, endAngle, callback) {
         let rotate = new Slider.RotateAttributes(rotateAnchorPoint.x, rotateAnchorPoint.y, rotateRadiusRatio, startAngle, endAngle);
         return new Slider.CircleSlider(container, dragItemPicture, dragItemSizeRatio, rotate, callback);
@@ -50,5 +49,12 @@ class IslandArea {
 $(() => {
     let island = new IslandArea();
     island.render();
+    $("#datepicker").datepicker({
+        inline: true,
+        showOtherMonths: true,
+        dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+        monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        firstDay: 1
+    });
 });
 //# sourceMappingURL=island.js.map
