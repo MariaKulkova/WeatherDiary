@@ -302,6 +302,11 @@ body {
 
 /* Clouds */
 
+@keyframes animateCloud {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
 .cloud-big-wrapper {
     width: 30%;
     position: absolute;
@@ -324,6 +329,8 @@ body {
     background: url(../img/cloud-big.png) no-repeat;
 	background-size: contain;
     display: none;
+    animation-name: animateCloud;
+    animation-duration: 0.4s;
 }
 
 .cloud-medium-wrapper {
@@ -348,6 +355,8 @@ body {
     background: url(../img/cloud-medium.png) no-repeat;
 	background-size: contain;
     display: none;
+    animation-name: animateCloud;
+    animation-duration: 0.4s;
 }
 
 .cloud-small-wrapper {
@@ -372,6 +381,8 @@ body {
     background: url(../img/cloud-small.png) no-repeat;
 	background-size: contain;
     display: none;
+    animation-name: animateCloud;
+    animation-duration: 0.4s;
 }
 
 /* Compass */
