@@ -37,9 +37,12 @@ body {
 
 .content-section {
     display: flex;
+    position: relative;
 	flex-flow: column;
     flex: auto;
 }
+
+/* Header */
 
 .header {
     position: relative;
@@ -64,6 +67,10 @@ body {
     font-family: exo2-bold;
 	font-size: 24px;
     color: #FFF;
+}
+
+.header-date:hover {
+    cursor: pointer;
 }
 
 /* Navigation */

@@ -18,7 +18,7 @@ class IslandArea {
         let dateButton = $(".header-date");
         dateButton.on("click", (e) => {
             e.preventDefault();
-            $(".modal").css("display", "block");
+            $(".modal").css("display", "flex");
         });
         let modal = document.getElementById("datepicker-modal");
         window.onclick = (e) => {
@@ -46,6 +46,19 @@ class IslandArea {
         };
         let windSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Slider.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
         windSlider.render();
+        $("#datepicker").datepicker({
+            inline: false,
+            showOtherMonths: true,
+            dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+            monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            firstDay: 1,
+            dateFormat: "dd.mm.yy",
+            onSelect: () => {
+                let dateString = $("#datepicker").datepicker({ dateFormat: "dd.mm.yy" }).val();
+                $(".header-date").html(dateString);
+                $(".modal").css("display", "none");
+            }
+        });
     }
     hideClouds() {
         for (let item of this.clouds) {
@@ -60,12 +73,5 @@ class IslandArea {
 $(() => {
     let island = new IslandArea();
     island.render();
-    $("#datepicker").datepicker({
-        inline: true,
-        showOtherMonths: true,
-        dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
-        monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-        firstDay: 1
-    });
 });
 //# sourceMappingURL=island.js.map

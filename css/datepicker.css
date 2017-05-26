@@ -7,36 +7,45 @@
 
 .modal {
     display: none;
-    position: fixed;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
     z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
     overflow: auto;
+    align-items: center;
+    justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
+    animation-name: animateBackground;
+    animation-duration: 0.5s;
 }
 
-.modal-content {
-    margin: 15% auto;
-    padding: 20px;
-    width: 30%;
-    height: auto;
+@keyframes animateBackground {
+    from {opacity: 0}
+    to {opacity: 1}
 }
 
 /* Datepicker */
 
-.ui-datepicker {
-    width: 350px;
-    height: auto;
-    margin: auto auto;
-    font: 9pt Arial, sans-serif;
-    background-color: #FFF;
+.hasDatepicker {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.ui-datepicker {
     display: block;
     position: absolute;
-    z-index: 1;
-    left: 0; right: 0;
+    width: 350px;
+    height: auto;
+    font: 9pt Arial, sans-serif;
+    background-color: #FFF;
+    animation-name: animatePicker;
+    animation-duration: 0.5s;
+}
+
+@keyframes animatePicker {
+    from {margin-top: -30px; opacity: 0}
+    to {margin-top: 0px; opacity: 1}
 }
 
 .ui-datepicker a {
