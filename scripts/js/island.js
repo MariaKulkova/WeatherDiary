@@ -1,4 +1,5 @@
 /// <reference path="./circle-slider.ts"/>
+/// <reference path="./KinveyAuth.ts"/>
 class ColorRGB {
     constructor(red, green, blue) {
         this.red = 0;
@@ -21,9 +22,12 @@ class ColorRGB {
     }
 }
 class IslandArea {
-    constructor() {
+    constructor(conditionsManager) {
         this.cloudButtonTapsCount = 0;
         this.isRainOn = false;
+        this.skyMinColor = new ColorRGB(95, 201, 226);
+        this.skyMaxColor = new ColorRGB(0, 206, 255);
+        this.conditionsManager = conditionsManager;
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
             inline: false,
@@ -51,8 +55,9 @@ class IslandArea {
                 this.hideClouds();
             }
             else {
-                this.clouds[this.cloudButtonTapsCount - 1].css({ "display": "block", "opacity": 0 });
-                this.clouds[this.cloudButtonTapsCount - 1].animate({ "opacity": 1 }, 400);
+                let currentCloud = this.clouds[this.cloudButtonTapsCount - 1];
+                currentCloud.css({ "display": "block", "opacity": 0 });
+                currentCloud.animate({ "opacity": 1 }, 400);
             }
         });
         // Set up rain tool
@@ -78,15 +83,9 @@ class IslandArea {
     }
     // Initializes and renders programmatically created elements
     render() {
-        let temperatureCallback = function (progress) {
-            let formattedValue = Math.round(120 * progress - 60);
-            d3.select("p.temperature-value").text(formattedValue);
-            let whiteColor = new ColorRGB(255, 255, 255);
-            let greyColor = new ColorRGB(95, 201, 226);
-            let blueColor = new ColorRGB(0, 206, 255);
-            let progressColor = ColorRGB.intermediateColor(greyColor, blueColor, progress);
-            let styleString = "linear-gradient(to top, rgb" + whiteColor.toString() + ", rgb" + progressColor.toString() + ")";
-            $("body").css("background-image", styleString);
+        let temperatureCallback = (progress) => {
+            this.updateTemperatureComponent(progress);
+            this.updateSkyComponent(progress);
         };
         let sunSlider = IslandArea.circleSliderForAttributes(d3.select("svg.sun-slider-container"), "img/sun-plain.png", 0.4, new Slider.Point(1, 1), 0.95, 180, 90, temperatureCallback);
         sunSlider.render();
@@ -96,6 +95,25 @@ class IslandArea {
         };
         let windSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Slider.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
         windSlider.render();
+        this.initializeStartValues();
+    }
+    initializeStartValues() {
+        this.conditionsManager.fetchCondition(new Date(), function (condition) {
+            $(".temperature-value").text(condition.temperature);
+        });
+    }
+    /* Dependent graphical components */
+    updateTemperatureComponent(ratio) {
+        let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature;
+        let minTemperature = Kinvey.WeatherConditionsManager.minTemperature;
+        let formattedValue = Math.round((maxTemperature - minTemperature) * ratio + minTemperature);
+        $(".temperature-value").text(formattedValue);
+    }
+    updateSkyComponent(ratio) {
+        let whiteColor = new ColorRGB(255, 255, 255);
+        let progressColor = ColorRGB.intermediateColor(this.skyMinColor, this.skyMaxColor, ratio);
+        let styleString = "linear-gradient(to top, rgb" + whiteColor.toString() + ", rgb" + progressColor.toString() + ")";
+        $("body").css("background-image", styleString);
     }
     hideClouds() {
         for (let item of this.clouds) {
@@ -107,13 +125,17 @@ class IslandArea {
             item.css("display", isOn ? "block" : "none");
         }
     }
+    /* Helpers methods */
     static circleSliderForAttributes(container, dragItemPicture, dragItemSizeRatio, rotateAnchorPoint, rotateRadiusRatio, startAngle, endAngle, callback) {
         let rotate = new Slider.RotateAttributes(rotateAnchorPoint.x, rotateAnchorPoint.y, rotateRadiusRatio, startAngle, endAngle);
         return new Slider.CircleSlider(container, dragItemPicture, dragItemSizeRatio, rotate, callback);
     }
 }
 $(() => {
-    let island = new IslandArea();
-    island.render();
+    Kinvey.initializeKinvey(function (succeeded) {
+        let manager = new Kinvey.WeatherConditionsManager();
+        let island = new IslandArea(manager);
+        island.render();
+    });
 });
 //# sourceMappingURL=island.js.map

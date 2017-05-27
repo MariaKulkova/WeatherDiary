@@ -1,5 +1,6 @@
 declare var d3: any;
 /// <reference path="./circle-slider.ts"/>
+/// <reference path="./KinveyAuth.ts"/>
 
 class ColorRGB {
     red: number = 0
@@ -31,12 +32,23 @@ class ColorRGB {
 
 class IslandArea {
 
-    private clouds: Array<JQuery>
+    private conditionsManager: Kinvey.WeatherConditionsManager
+    private weatherCondition: Kinvey.WeatherCondition
     private cloudButtonTapsCount: number = 0
-    private rains: Array<JQuery>
     private isRainOn: boolean = false
 
-    constructor() {
+    // Weather condition components
+    private sunSlider: Slider.CircleSlider
+    private windForceSlider: Slider.CircleSlider
+    private windCompass: JQuery
+    private clouds: Array<JQuery>
+    private rains: Array<JQuery>
+    private skyMinColor: ColorRGB = new ColorRGB(95, 201, 226)
+    private skyMaxColor: ColorRGB = new ColorRGB(0, 206, 255)
+
+    constructor(conditionsManager: Kinvey.WeatherConditionsManager) {
+        this.conditionsManager = conditionsManager
+
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
             inline: false,
@@ -66,9 +78,11 @@ class IslandArea {
                 this.hideClouds()
             }
             else {
-                this.clouds[this.cloudButtonTapsCount - 1].css({"display": "block", "opacity": 0})
-                this.clouds[this.cloudButtonTapsCount - 1].animate({"opacity": 1}, 400)
+                let currentCloud = this.clouds[this.cloudButtonTapsCount - 1]
+                currentCloud.css({"display": "block", "opacity": 0})
+                currentCloud.animate({"opacity": 1}, 400)
             }
+            
         })
 
         // Set up rain tool
@@ -98,16 +112,10 @@ class IslandArea {
     
     // Initializes and renders programmatically created elements
     public render() {
-        let temperatureCallback: (value: number) => void = function(progress) { 
-            let formattedValue = Math.round(120 * progress - 60)
-            d3.select("p.temperature-value").text(formattedValue)
-            let whiteColor = new ColorRGB(255, 255, 255)
-            let greyColor = new ColorRGB(95, 201, 226)
-            let blueColor = new ColorRGB(0, 206, 255)
-            let progressColor = ColorRGB.intermediateColor(greyColor, blueColor, progress)
-            let styleString = "linear-gradient(to top, rgb" + whiteColor.toString() + ", rgb" + progressColor.toString() + ")"
-            $("body").css("background-image", styleString)
-        };
+        let temperatureCallback = (progress: number) => { 
+            this.updateTemperatureComponent(progress)
+            this.updateSkyComponent(progress)
+        }
 
         let sunSlider = IslandArea.circleSliderForAttributes(
             d3.select("svg.sun-slider-container"),
@@ -129,6 +137,30 @@ class IslandArea {
             new Slider.Point(0.5, 0.5), 0.5, 225, -45,
             windForceCallback)
         windSlider.render()
+
+        this.initializeStartValues()
+    }
+
+    initializeStartValues() {
+        this.conditionsManager.fetchCondition(new Date(), function(condition) {
+            $(".temperature-value").text(condition.temperature)
+        })
+    }
+
+    /* Dependent graphical components */
+
+    private updateTemperatureComponent(ratio: number) {
+        let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
+        let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
+        let formattedValue = Math.round((maxTemperature - minTemperature) * ratio + minTemperature)
+        $(".temperature-value").text(formattedValue)
+    }
+
+    private updateSkyComponent(ratio: number) {
+        let whiteColor = new ColorRGB(255, 255, 255)
+        let progressColor = ColorRGB.intermediateColor(this.skyMinColor, this.skyMaxColor, ratio)
+        let styleString = "linear-gradient(to top, rgb" + whiteColor.toString() + ", rgb" + progressColor.toString() + ")"
+        $("body").css("background-image", styleString)
     }
 
     private hideClouds() {
@@ -142,6 +174,8 @@ class IslandArea {
             item.css("display", isOn ? "block" : "none")
         }
     }
+
+    /* Helpers methods */
 
     private static circleSliderForAttributes(container: d3.Selection<any, any, any, any>,
                                      dragItemPicture: string,
@@ -161,6 +195,9 @@ class IslandArea {
 }
 
 $(() => {
-    let island = new IslandArea()
-    island.render()
+    Kinvey.initializeKinvey(function(succeeded) {
+        let manager = new Kinvey.WeatherConditionsManager()
+        let island = new IslandArea(manager)
+        island.render()
+    })
 });

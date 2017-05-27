@@ -20,7 +20,7 @@ class LoginForm {
 }
 
 $(() => {
-    Kinvey.initializeKinvey();
+    Kinvey.initializeKinvey()
 
     let loginActionForm = document.getElementById("login-action-form") as HTMLFormElement
     console.log(loginActionForm)
