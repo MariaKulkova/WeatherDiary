@@ -302,11 +302,6 @@ body {
 
 /* Clouds */
 
-@keyframes animateCloud {
-    from {opacity: 0}
-    to {opacity: 1}
-}
-
 /* Big cloud area */
 
 .cloud-big-wrapper {
@@ -315,8 +310,6 @@ body {
     right: 25%;
     top: 19%;
     display: none;
-    animation-name: animateCloud;
-    animation-duration: 0.4s;
 }
 
 .cloud-big-wrapper:before {
@@ -348,8 +341,6 @@ body {
     left: 28%;
     top: 12%;
     display: none;
-    animation-name: animateCloud;
-    animation-duration: 0.4s;
 }
 
 .cloud-medium-wrapper:before {
@@ -381,8 +372,6 @@ body {
     left: 16%;
     top: 26%;
     display: none;
-    animation-name: animateCloud;
-    animation-duration: 0.4s;
 }
 
 .cloud-small-wrapper:before {

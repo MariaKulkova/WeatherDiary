@@ -66,7 +66,8 @@ class IslandArea {
                 this.hideClouds()
             }
             else {
-                this.clouds[this.cloudButtonTapsCount - 1].css("display", "block")
+                this.clouds[this.cloudButtonTapsCount - 1].css({"display": "block", "opacity": 0})
+                this.clouds[this.cloudButtonTapsCount - 1].animate({"opacity": 1}, 400)
             }
         })
 
