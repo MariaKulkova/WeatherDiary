@@ -140,8 +140,16 @@ class IslandArea {
     }
 
     initializeStartValues() {
-        this.conditionsManager.fetchCondition(new Date(), function(condition) {
-            $(".temperature-value").text(condition.temperature)
+        this.conditionsManager.fetchCondition(new Date(), (condition: Kinvey.WeatherCondition) => {
+            let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
+            let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
+            let temperatureProgress = (condition.temperature - minTemperature) / (maxTemperature - minTemperature)
+
+            let windForceProgress = condition.windForce / Kinvey.WeatherConditionsManager.maxWindForce
+            
+            this.updateTemperatureComponent(condition.temperature)
+            this.updateWindForceLabel(condition.windForce)
+            this.setCloudsLevel(condition.cloudness)
         })
     }
 

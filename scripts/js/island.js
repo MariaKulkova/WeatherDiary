@@ -101,8 +101,14 @@ class IslandArea {
         this.initializeStartValues();
     }
     initializeStartValues() {
-        this.conditionsManager.fetchCondition(new Date(), function (condition) {
-            $(".temperature-value").text(condition.temperature);
+        this.conditionsManager.fetchCondition(new Date(), (condition) => {
+            let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature;
+            let minTemperature = Kinvey.WeatherConditionsManager.minTemperature;
+            let temperatureProgress = (condition.temperature - minTemperature) / (maxTemperature - minTemperature);
+            let windForceProgress = condition.windForce / Kinvey.WeatherConditionsManager.maxWindForce;
+            this.updateTemperatureComponent(condition.temperature);
+            this.updateWindForceLabel(condition.windForce);
+            this.setCloudsLevel(condition.cloudness);
         });
     }
     /* Dependent graphical components */
@@ -121,6 +127,7 @@ class IslandArea {
     updateWindForceLabel(value) {
         $(".windforce-value").text(value + "м/с");
     }
+    // Sets the correct amount of clouds according to cloudness level
     setCloudsLevel(value) {
         if (value > this.clouds.length) {
             throw new RangeError("Clouds level is out of range");
@@ -134,15 +141,18 @@ class IslandArea {
             }
         }
     }
+    // Hides all of the clouds
     hideClouds() {
         for (let item of this.clouds) {
             item.css("display", "none");
         }
     }
+    // Shows given cloud with animation
     showCloud(cloud) {
         cloud.css({ "display": "block", "opacity": 0 });
         cloud.animate({ "opacity": 1 }, 400);
     }
+    // Shows or hides rain according to the given value
     switchRainState(isOn) {
         for (let item of this.rains) {
             item.css("display", isOn ? "block" : "none");

@@ -77,6 +77,7 @@ namespace Slider {
         let startAngleRad = this.degreesToRadians(this.rotateAttributes.startAngle)
         this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad),
                                     -(this.height * this.rotateAttributes.radius) * Math.sin(startAngleRad))
+        console.log("Saved vector: " + this.savedVector.x + " " + this.savedVector.y)
     }
 
     public render() {
@@ -92,26 +93,30 @@ namespace Slider {
       let dragged = (d: DragCoordinates) => {
         let currentVector = new Point(d3.event.x, d3.event.y)
         let currentVectorAngle = this.angleForPoint(currentVector)
-        
+
         // Determine rotation limitation
         let oldVectorAngle = this.angleForPoint(this.savedVector)
         let deltaAngle = this.angleBetweenVectors(this.savedVector, currentVector)
         if (this.isRotateClockwise(this.savedVector, currentVector)) {
           deltaAngle = -deltaAngle
         }
-        this.cumulativeAngle -= this.radiansToDegrees(deltaAngle)
 
-        let alphaDegrees = this.radiansToDegrees(currentVectorAngle)
         let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle)
-        if (this.cumulativeAngle <= arcLength && this.cumulativeAngle >= 0) {
+        let newCumulativeAngle = this.cumulativeAngle - this.radiansToDegrees(deltaAngle)
+        if (newCumulativeAngle <= arcLength && newCumulativeAngle >= 0) {
+          this.cumulativeAngle = newCumulativeAngle
+
+          let alphaDegrees = this.radiansToDegrees(currentVectorAngle)
           var progress = this.cumulativeAngle / arcLength
           this.onValueChangedListener(progress)
           this.dragElement
             .attr("x", d.x = (this.width * this.rotateAttributes.radius) * Math.cos(currentVectorAngle))
             .attr("y", d.y = -(this.height * this.rotateAttributes.radius) * Math.sin(currentVectorAngle))
             .style("transform", d.rotateTransformation = "rotate(" + alphaDegrees + "deg)");
+
+          this.savedVector = currentVector
+          console.log("Cumulative: ", this.cumulativeAngle)
         }
-        this.savedVector = currentVector
       }
 
       let dragended = (d: DragCoordinates) => {
@@ -124,7 +129,7 @@ namespace Slider {
         .on("drag", dragged)
         .on("end", dragended);
 
-      let handleDrag: [DragCoordinates] = [{ 
+      let initialCoordinates: [DragCoordinates] = [{ 
         x: this.savedVector.x, 
         y: this.savedVector.y, 
         rotateTransformation: ""
@@ -135,7 +140,7 @@ namespace Slider {
       this.dragElement = this.sliderContainer.append("g")
         .attr("transform", "translate(" + translateX + "," + translateY + ")")
         .selectAll('image')
-        .data(handleDrag)
+        .data(initialCoordinates)
         .enter().append("image")
 
       this.dragElement
