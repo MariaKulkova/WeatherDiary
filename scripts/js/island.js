@@ -55,9 +55,7 @@ class IslandArea {
                 this.hideClouds();
             }
             else {
-                let currentCloud = this.clouds[this.cloudButtonTapsCount - 1];
-                currentCloud.css({ "display": "block", "opacity": 0 });
-                currentCloud.animate({ "opacity": 1 }, 400);
+                this.showCloud(this.clouds[this.cloudButtonTapsCount - 1]);
             }
         });
         // Set up rain tool
@@ -108,22 +106,42 @@ class IslandArea {
         });
     }
     /* Dependent graphical components */
+    // Sets the temperature label in Celsius degrees
     updateTemperatureComponent(value) {
         $(".temperature-value").text(value);
     }
+    // Sets the sky color based on transition value from grey to blue
     updateSkyComponent(ratio) {
         let whiteColor = new ColorRGB(255, 255, 255);
         let progressColor = ColorRGB.intermediateColor(this.skyMinColor, this.skyMaxColor, ratio);
         let styleString = "linear-gradient(to top, rgb" + whiteColor.toString() + ", rgb" + progressColor.toString() + ")";
         $("body").css("background-image", styleString);
     }
+    // Sets the wind force label in meters per second
     updateWindForceLabel(value) {
         $(".windforce-value").text(value + "м/с");
+    }
+    setCloudsLevel(value) {
+        if (value > this.clouds.length) {
+            throw new RangeError("Clouds level is out of range");
+        }
+        if (value == 0) {
+            this.hideClouds();
+        }
+        else {
+            for (let i = 0; i < value; i++) {
+                this.showCloud(this.clouds[i]);
+            }
+        }
     }
     hideClouds() {
         for (let item of this.clouds) {
             item.css("display", "none");
         }
+    }
+    showCloud(cloud) {
+        cloud.css({ "display": "block", "opacity": 0 });
+        cloud.animate({ "opacity": 1 }, 400);
     }
     switchRainState(isOn) {
         for (let item of this.rains) {

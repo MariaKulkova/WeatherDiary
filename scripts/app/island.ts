@@ -68,7 +68,6 @@ class IslandArea {
 
         // Set up clouds tool
         this.clouds = [$(".cloud-big-wrapper"), $(".cloud-small-wrapper"), $(".cloud-medium-wrapper")]
-
         let cloudButton = $(".tool-button.cloud")
         cloudButton.on("click", (e: BaseJQueryEventObject) => {
             e.preventDefault()
@@ -78,16 +77,12 @@ class IslandArea {
                 this.hideClouds()
             }
             else {
-                let currentCloud = this.clouds[this.cloudButtonTapsCount - 1]
-                currentCloud.css({"display": "block", "opacity": 0})
-                currentCloud.animate({"opacity": 1}, 400)
+                this.showCloud(this.clouds[this.cloudButtonTapsCount - 1])
             }
-            
         })
 
         // Set up rain tool
         this.rains = [$(".rain-big"), $(".rain-medium"), $(".rain-small")]
-
         let rainButton = $(".tool-button.rain")
         rainButton.on("click", (e: BaseJQueryEventObject) => {
             e.preventDefault()
@@ -152,10 +147,12 @@ class IslandArea {
 
     /* Dependent graphical components */
 
+    // Sets the temperature label in Celsius degrees
     private updateTemperatureComponent(value: number) {
         $(".temperature-value").text(value)
     }
 
+    // Sets the sky color based on transition value from grey to blue
     private updateSkyComponent(ratio: number) {
         let whiteColor = new ColorRGB(255, 255, 255)
         let progressColor = ColorRGB.intermediateColor(this.skyMinColor, this.skyMaxColor, ratio)
@@ -163,16 +160,41 @@ class IslandArea {
         $("body").css("background-image", styleString)
     }
 
+    // Sets the wind force label in meters per second
     private updateWindForceLabel(value: number) {
         $(".windforce-value").text(value + "м/с")
     }
 
+    // Sets the correct amount of clouds according to cloudness level
+    private setCloudsLevel(value: number) {
+        if (value > this.clouds.length) {
+            throw new RangeError("Clouds level is out of range")
+        }
+
+        if (value == 0) {
+            this.hideClouds()
+        }
+        else {
+            for (let i = 0; i < value; i++) {
+                this.showCloud(this.clouds[i])
+            }
+        }
+    }
+
+    // Hides all of the clouds
     private hideClouds() {
         for (let item of this.clouds) {
             item.css("display", "none")
         }
     }
 
+    // Shows given cloud with animation
+    private showCloud(cloud: JQuery) {
+        cloud.css({"display": "block", "opacity": 0})
+        cloud.animate({"opacity": 1}, 400)
+    }
+
+    // Shows or hides rain according to the given value
     private switchRainState(isOn: boolean) {
         for (let item of this.rains) {
             item.css("display", isOn ? "block" : "none")
