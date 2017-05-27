@@ -307,25 +307,24 @@ body {
     to {opacity: 1}
 }
 
+/* Big cloud area */
+
 .cloud-big-wrapper {
-    width: 30%;
+    width: 28%;
     position: absolute;
-    right: 30%;
-    top: 17%;
+    right: 25%;
+    top: 19%;
 }
 
 .cloud-big-wrapper:before {
     content: "";
     display: block;
-    padding-top: 50%;
+    padding-top: 82%;
 }
 
 .cloud-big {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
+    left: 0; bottom: 40%; top: 0; right: 0;
     background: url(../img/cloud-big.png) no-repeat;
 	background-size: contain;
     display: none;
@@ -333,25 +332,32 @@ body {
     animation-duration: 0.4s;
 }
 
-.cloud-medium-wrapper {
-    width: 18%;
+.rain-big {
     position: absolute;
-    left: 23%;
+    left: 0; bottom: 0; top: 45%; right: 0;
+    background: url(../img/rain-big.png) center no-repeat;
+	background-size: contain;
+    display: none;
+}
+
+/* Medium cloud area */
+
+.cloud-medium-wrapper {
+    width: 17%;
+    position: absolute;
+    left: 28%;
     top: 12%;
 }
 
 .cloud-medium-wrapper:before {
     content: "";
     display: block;
-    padding-top: 50%;
+    padding-top: 130%;
 }
 
 .cloud-medium {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
+    left: 0; bottom: 60%; top: 0; right: 0;
     background: url(../img/cloud-medium.png) no-repeat;
 	background-size: contain;
     display: none;
@@ -359,30 +365,45 @@ body {
     animation-duration: 0.4s;
 }
 
+.rain-medium {
+    position: absolute;
+    left: 0; bottom: 0; top: 40%; right: 0;
+    background: url(../img/rain-medium.png) center no-repeat;
+	background-size: contain;
+    display: none;
+}
+
+/* Small cloud area */
+
 .cloud-small-wrapper {
     width: 15%;
     position: absolute;
-    left: 15%;
-    top: 25%;
+    left: 16%;
+    top: 26%;
 }
 
 .cloud-small-wrapper:before {
     content: "";
     display: block;
-    padding-top: 60%;
+    padding-top: 100%;
 }
 
 .cloud-small {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
+    left: 0; bottom: 50%; top: 0; right: 0;
     background: url(../img/cloud-small.png) no-repeat;
 	background-size: contain;
     display: none;
     animation-name: animateCloud;
     animation-duration: 0.4s;
+}
+
+.rain-small {
+    position: absolute;
+    left: 0; bottom: 0; top: 50%; right: 0;
+    background: url(../img/rain-small.png) no-repeat;
+	background-size: contain;
+    display: none;
 }
 
 /* Compass */

@@ -35,6 +35,7 @@ class IslandArea {
     private cloudButtonTapsCount: number = 0
 
     constructor() {
+        // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
             inline: false,
             showOtherMonths: true,
@@ -51,6 +52,7 @@ class IslandArea {
             }
         });
 
+        // Set up clouds tool
         this.clouds = [$(".cloud-big"), $(".cloud-small"), $(".cloud-medium")]
 
         let cloudButton = $(".tool-button.cloud")
