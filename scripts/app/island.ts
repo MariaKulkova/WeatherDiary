@@ -34,7 +34,6 @@ class IslandArea {
 
     private conditionsManager: Kinvey.WeatherConditionsManager
     private weatherCondition: Kinvey.WeatherCondition
-    private cloudButtonTapsCount: number = 0
     private isRainOn: boolean = false
 
     // Weather condition components
@@ -71,13 +70,13 @@ class IslandArea {
         let cloudButton = $(".tool-button.cloud")
         cloudButton.on("click", (e: BaseJQueryEventObject) => {
             e.preventDefault()
-            this.cloudButtonTapsCount += 1
-            if (this.cloudButtonTapsCount > this.clouds.length) {
-                this.cloudButtonTapsCount = 0
+            this.weatherCondition.cloudness += 1
+            if (this.weatherCondition.cloudness > this.clouds.length) {
+                this.weatherCondition.cloudness = 0
                 this.hideClouds()
             }
             else {
-                this.showCloud(this.clouds[this.cloudButtonTapsCount - 1])
+                this.showCloud(this.clouds[this.weatherCondition.cloudness - 1])
             }
         })
 
@@ -141,6 +140,8 @@ class IslandArea {
 
     initializeStartValues() {
         this.conditionsManager.fetchCondition(new Date(), (condition: Kinvey.WeatherCondition) => {
+            this.weatherCondition = condition
+            
             let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
             let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
             let temperatureProgress = (condition.temperature - minTemperature) / (maxTemperature - minTemperature)

@@ -23,7 +23,6 @@ class ColorRGB {
 }
 class IslandArea {
     constructor(conditionsManager) {
-        this.cloudButtonTapsCount = 0;
         this.isRainOn = false;
         this.skyMinColor = new ColorRGB(95, 201, 226);
         this.skyMaxColor = new ColorRGB(0, 206, 255);
@@ -49,13 +48,13 @@ class IslandArea {
         let cloudButton = $(".tool-button.cloud");
         cloudButton.on("click", (e) => {
             e.preventDefault();
-            this.cloudButtonTapsCount += 1;
-            if (this.cloudButtonTapsCount > this.clouds.length) {
-                this.cloudButtonTapsCount = 0;
+            this.weatherCondition.cloudness += 1;
+            if (this.weatherCondition.cloudness > this.clouds.length) {
+                this.weatherCondition.cloudness = 0;
                 this.hideClouds();
             }
             else {
-                this.showCloud(this.clouds[this.cloudButtonTapsCount - 1]);
+                this.showCloud(this.clouds[this.weatherCondition.cloudness - 1]);
             }
         });
         // Set up rain tool
@@ -102,6 +101,7 @@ class IslandArea {
     }
     initializeStartValues() {
         this.conditionsManager.fetchCondition(new Date(), (condition) => {
+            this.weatherCondition = condition;
             let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature;
             let minTemperature = Kinvey.WeatherConditionsManager.minTemperature;
             let temperatureProgress = (condition.temperature - minTemperature) / (maxTemperature - minTemperature);
