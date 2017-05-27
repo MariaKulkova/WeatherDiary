@@ -112,31 +112,34 @@ class IslandArea {
     
     // Initializes and renders programmatically created elements
     public render() {
+        // Sun slider initialization
         let temperatureCallback = (progress: number) => { 
-            this.updateTemperatureComponent(progress)
+            let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
+            let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
+            let formattedValue = Math.round((maxTemperature - minTemperature) * progress + minTemperature)
+            this.updateTemperatureComponent(formattedValue)
             this.updateSkyComponent(progress)
         }
-
-        let sunSlider = IslandArea.circleSliderForAttributes(
+        this.sunSlider = IslandArea.circleSliderForAttributes(
             d3.select("svg.sun-slider-container"),
             "img/sun-plain.png",
             0.4,
             new Slider.Point(1, 1), 0.95, 180, 90,
             temperatureCallback)
-        sunSlider.render()
+        this.sunSlider.render()
         
-        let windForceCallback: (value: number) => void = function(progress) {
-            let formattedValue = Math.round(20 * progress)
-            d3.select("p.windforce-value").text(formattedValue + "м/с") 
-        };
-
-        let windSlider = IslandArea.circleSliderForAttributes(
+        // Wind force slider initialization
+        let windForceCallback = (progress: number) => {
+            let formattedValue = Math.round(Kinvey.WeatherConditionsManager.maxWindForce * progress)
+            this.updateWindForceLabel(formattedValue)
+        }
+        this.windForceSlider = IslandArea.circleSliderForAttributes(
             d3.select("svg.wind-slider-container"),
             "img/windforce-drag-element.png",
             0.3,
             new Slider.Point(0.5, 0.5), 0.5, 225, -45,
             windForceCallback)
-        windSlider.render()
+        this.windForceSlider.render()
 
         this.initializeStartValues()
     }
@@ -149,11 +152,8 @@ class IslandArea {
 
     /* Dependent graphical components */
 
-    private updateTemperatureComponent(ratio: number) {
-        let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
-        let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
-        let formattedValue = Math.round((maxTemperature - minTemperature) * ratio + minTemperature)
-        $(".temperature-value").text(formattedValue)
+    private updateTemperatureComponent(value: number) {
+        $(".temperature-value").text(value)
     }
 
     private updateSkyComponent(ratio: number) {
@@ -161,6 +161,10 @@ class IslandArea {
         let progressColor = ColorRGB.intermediateColor(this.skyMinColor, this.skyMaxColor, ratio)
         let styleString = "linear-gradient(to top, rgb" + whiteColor.toString() + ", rgb" + progressColor.toString() + ")"
         $("body").css("background-image", styleString)
+    }
+
+    private updateWindForceLabel(value: number) {
+        $(".windforce-value").text(value + "м/с")
     }
 
     private hideClouds() {

@@ -21,6 +21,7 @@ var Kinvey;
     }
     WeatherConditionsManager.maxTemperature = 40;
     WeatherConditionsManager.minTemperature = -40;
+    WeatherConditionsManager.maxWindForce = 20;
     Kinvey_1.WeatherConditionsManager = WeatherConditionsManager;
 })(Kinvey || (Kinvey = {}));
 //# sourceMappingURL=KinveyDiary.js.map

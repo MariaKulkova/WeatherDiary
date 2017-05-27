@@ -32,6 +32,7 @@ namespace Kinvey {
 
         public static readonly maxTemperature: number = 40
         public static readonly minTemperature: number = -40
+        public static readonly maxWindForce: number = 20
 
         constructor() { }
 
