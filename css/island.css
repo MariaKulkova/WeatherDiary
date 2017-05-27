@@ -314,6 +314,9 @@ body {
     position: absolute;
     right: 25%;
     top: 19%;
+    display: none;
+    animation-name: animateCloud;
+    animation-duration: 0.4s;
 }
 
 .cloud-big-wrapper:before {
@@ -327,9 +330,6 @@ body {
     left: 0; bottom: 40%; top: 0; right: 0;
     background: url(../img/cloud-big.png) no-repeat;
 	background-size: contain;
-    display: none;
-    animation-name: animateCloud;
-    animation-duration: 0.4s;
 }
 
 .rain-big {
@@ -347,6 +347,9 @@ body {
     position: absolute;
     left: 28%;
     top: 12%;
+    display: none;
+    animation-name: animateCloud;
+    animation-duration: 0.4s;
 }
 
 .cloud-medium-wrapper:before {
@@ -360,9 +363,6 @@ body {
     left: 0; bottom: 60%; top: 0; right: 0;
     background: url(../img/cloud-medium.png) no-repeat;
 	background-size: contain;
-    display: none;
-    animation-name: animateCloud;
-    animation-duration: 0.4s;
 }
 
 .rain-medium {
@@ -380,6 +380,9 @@ body {
     position: absolute;
     left: 16%;
     top: 26%;
+    display: none;
+    animation-name: animateCloud;
+    animation-duration: 0.4s;
 }
 
 .cloud-small-wrapper:before {
@@ -393,9 +396,6 @@ body {
     left: 0; bottom: 50%; top: 0; right: 0;
     background: url(../img/cloud-small.png) no-repeat;
 	background-size: contain;
-    display: none;
-    animation-name: animateCloud;
-    animation-duration: 0.4s;
 }
 
 .rain-small {

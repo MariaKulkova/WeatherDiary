@@ -33,6 +33,8 @@ class IslandArea {
 
     private clouds: Array<JQuery>
     private cloudButtonTapsCount: number = 0
+    private rains: Array<JQuery>
+    private isRainOn: boolean = false
 
     constructor() {
         // Set up datepicker to present russian labels and date formats
@@ -53,7 +55,7 @@ class IslandArea {
         });
 
         // Set up clouds tool
-        this.clouds = [$(".cloud-big"), $(".cloud-small"), $(".cloud-medium")]
+        this.clouds = [$(".cloud-big-wrapper"), $(".cloud-small-wrapper"), $(".cloud-medium-wrapper")]
 
         let cloudButton = $(".tool-button.cloud")
         cloudButton.on("click", (e: BaseJQueryEventObject) => {
@@ -68,6 +70,17 @@ class IslandArea {
             }
         })
 
+        // Set up rain tool
+        this.rains = [$(".rain-big"), $(".rain-medium"), $(".rain-small")]
+
+        let rainButton = $(".tool-button.rain")
+        rainButton.on("click", (e: BaseJQueryEventObject) => {
+            e.preventDefault()
+            this.isRainOn = !this.isRainOn
+            this.switchRainState(this.isRainOn)
+        })
+
+        // Set up datepicker modal appearing
         let dateButton = $(".header-date")
         dateButton.on("click", (e: BaseJQueryEventObject) => {
             e.preventDefault()
@@ -120,6 +133,12 @@ class IslandArea {
     private hideClouds() {
         for (let item of this.clouds) {
             item.css("display", "none")
+        }
+    }
+
+    private switchRainState(isOn: boolean) {
+        for (let item of this.rains) {
+            item.css("display", isOn ? "block" : "none")
         }
     }
 

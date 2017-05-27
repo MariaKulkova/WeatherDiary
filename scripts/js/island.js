@@ -23,6 +23,8 @@ class ColorRGB {
 class IslandArea {
     constructor() {
         this.cloudButtonTapsCount = 0;
+        this.isRainOn = false;
+        // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
             inline: false,
             showOtherMonths: true,
@@ -38,7 +40,8 @@ class IslandArea {
                 $(".modal").css("display", "none");
             }
         });
-        this.clouds = [$(".cloud-big"), $(".cloud-small"), $(".cloud-medium")];
+        // Set up clouds tool
+        this.clouds = [$(".cloud-big-wrapper"), $(".cloud-small-wrapper"), $(".cloud-medium-wrapper")];
         let cloudButton = $(".tool-button.cloud");
         cloudButton.on("click", (e) => {
             e.preventDefault();
@@ -51,6 +54,15 @@ class IslandArea {
                 this.clouds[this.cloudButtonTapsCount - 1].css("display", "block");
             }
         });
+        // Set up rain tool
+        this.rains = [$(".rain-big"), $(".rain-medium"), $(".rain-small")];
+        let rainButton = $(".tool-button.rain");
+        rainButton.on("click", (e) => {
+            e.preventDefault();
+            this.isRainOn = !this.isRainOn;
+            this.switchRainState(this.isRainOn);
+        });
+        // Set up datepicker modal appearing
         let dateButton = $(".header-date");
         dateButton.on("click", (e) => {
             e.preventDefault();
@@ -87,6 +99,11 @@ class IslandArea {
     hideClouds() {
         for (let item of this.clouds) {
             item.css("display", "none");
+        }
+    }
+    switchRainState(isOn) {
+        for (let item of this.rains) {
+            item.css("display", isOn ? "block" : "none");
         }
     }
     static circleSliderForAttributes(container, dragItemPicture, dragItemSizeRatio, rotateAnchorPoint, rotateRadiusRatio, startAngle, endAngle, callback) {
