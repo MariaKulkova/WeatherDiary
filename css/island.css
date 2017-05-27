@@ -202,7 +202,7 @@ body {
 .temperature-label {
     position: absolute;
     display: inline-flex;
-    top: -1%; left: 40%;
+    top: -1%; left: 37%;
 	font-family: cuprum-regular;
 	font-size: 4vmin;
 	color: #FFF;

@@ -144,8 +144,10 @@ class IslandArea {
             let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
             let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
             let temperatureProgress = (condition.temperature - minTemperature) / (maxTemperature - minTemperature)
+            this.sunSlider.setProgressValue(temperatureProgress)
 
             let windForceProgress = condition.windForce / Kinvey.WeatherConditionsManager.maxWindForce
+            this.windForceSlider.setProgressValue(windForceProgress)
             
             this.updateTemperatureComponent(condition.temperature)
             this.updateWindForceLabel(condition.windForce)

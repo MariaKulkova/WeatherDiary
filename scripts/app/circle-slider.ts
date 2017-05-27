@@ -77,7 +77,6 @@ namespace Slider {
         let startAngleRad = this.degreesToRadians(this.rotateAttributes.startAngle)
         this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad),
                                     -(this.height * this.rotateAttributes.radius) * Math.sin(startAngleRad))
-        console.log("Saved vector: " + this.savedVector.x + " " + this.savedVector.y)
     }
 
     public render() {
@@ -115,7 +114,6 @@ namespace Slider {
             .style("transform", d.rotateTransformation = "rotate(" + alphaDegrees + "deg)");
 
           this.savedVector = currentVector
-          console.log("Cumulative: ", this.cumulativeAngle)
         }
       }
 
@@ -132,14 +130,14 @@ namespace Slider {
       let initialCoordinates: [DragCoordinates] = [{ 
         x: this.savedVector.x, 
         y: this.savedVector.y, 
-        rotateTransformation: ""
+        rotateTransformation: "rotate(" + this.rotateAttributes.startAngle + "deg)"
       }]
 
       let translateX = this.width * this.rotateAttributes.centerX - this.dragElementSizeRatio / 2
       let translateY = this.height * this.rotateAttributes.centerY - this.dragElementSizeRatio / 2
       this.dragElement = this.sliderContainer.append("g")
         .attr("transform", "translate(" + translateX + "," + translateY + ")")
-        .selectAll('image')
+        .selectAll("image")
         .data(initialCoordinates)
         .enter().append("image")
 
@@ -153,6 +151,30 @@ namespace Slider {
         .style("transform", function(d) { return d.rotateTransformation; })
         .style("transform-origin", "center center")  
         .call(drag);
+    }
+
+    public setProgressValue(value: number) {
+      let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle)
+      this.cumulativeAngle = arcLength * value
+      let realAngle = this.rotateAttributes.startAngle - this.cumulativeAngle
+      this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(this.degreesToRadians(realAngle)),
+                                  -this.height * this.rotateAttributes.radius * Math.sin(this.degreesToRadians(realAngle)))
+      
+      // We should reinitialize data binding for correct slider work
+      let initialCoordinates: [DragCoordinates] = [{ 
+        x: this.savedVector.x, 
+        y: this.savedVector.y, 
+        rotateTransformation: "rotate(" + realAngle + "deg)"
+      }]
+
+      this.sliderContainer.select("g")
+        .selectAll("image")
+        .data(initialCoordinates)
+      
+      this.dragElement
+        .attr("x", initialCoordinates[0].x)
+        .attr("y", initialCoordinates[0].y)
+        .style("transform", initialCoordinates[0].rotateTransformation)
     }
 
     // Helpers methods
