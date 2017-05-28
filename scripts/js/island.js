@@ -80,6 +80,13 @@ class IslandArea {
                 modal.style.display = "none";
             }
         };
+        // Set up save button
+        let saveButton = $(".save-button");
+        saveButton.on("click", (e) => {
+            e.preventDefault();
+            console.log("Save button tapped. Saved object: " + this.weatherCondition);
+            this.conditionsManager.saveCondition(this.weatherCondition);
+        });
     }
     // Initializes and renders programmatically created elements
     render() {
@@ -90,12 +97,14 @@ class IslandArea {
             let formattedValue = Math.round((maxTemperature - minTemperature) * progress + minTemperature);
             this.updateTemperatureComponent(formattedValue);
             this.updateSkyComponent(progress);
+            this.weatherCondition.temperature = formattedValue;
         };
         this.sunSlider = IslandArea.circleSliderForAttributes(d3.select("svg.sun-slider-container"), "img/sun-plain.png", 0.4, new Geometry.Point(1, 1), 0.95, 180, 90, temperatureCallback);
         this.sunSlider.render();
         // Compass component
         let compassCallback = (angle) => {
             this.setDirectionLabelForAngle(angle);
+            this.weatherCondition.windDirection = angle / 45 + 1;
         };
         this.windCompass = new Compass.WindCompass(compassCallback);
         this.windCompass.render();
@@ -103,6 +112,7 @@ class IslandArea {
         let windForceCallback = (progress) => {
             let formattedValue = Math.round(Kinvey.WeatherConditionsManager.maxWindForce * progress);
             this.updateWindForceLabel(formattedValue);
+            this.weatherCondition.windForce = formattedValue;
         };
         this.windForceSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Geometry.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
         this.windForceSlider.render();

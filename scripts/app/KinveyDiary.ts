@@ -71,6 +71,7 @@ namespace Kinvey {
     }
 
     export class WeatherCondition {
+        _id: string
         date: Date = new Date()
         temperature: number = 0
         cloudness: number = 0
@@ -87,7 +88,7 @@ namespace Kinvey {
 
         constructor() { }
 
-        fetchCondition(date: Date, completed: (condition: WeatherCondition) => void) {
+        public fetchCondition(date: Date, completed: (condition: WeatherCondition) => void) {
             let activeUser = Kinvey.User.getActiveUser()
 
             let query = new Kinvey.Query()
@@ -102,6 +103,17 @@ namespace Kinvey {
             }, function onComplete() {
 
             });
+        }
+
+        public saveCondition(condition: WeatherCondition, completed?: (succeeded: boolean, error?: string) => void) {
+            let dataStore = Kinvey.DataStore.collection("conditions", Kinvey.DataStoreType.Network)
+            var promise = dataStore.save(condition).then(function onSuccess(entity) {
+                    console.log("Successfully saved: " + entity)
+                    completed(true)
+                }).catch(function onError(error) {
+                    console.log("Error occured during entity saving" + error)
+                    completed(false, error)
+                });
         }
     }
 }

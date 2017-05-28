@@ -69,6 +69,16 @@ var Kinvey;
             }, function onComplete() {
             });
         }
+        saveCondition(condition, completed) {
+            let dataStore = Kinvey.DataStore.collection("conditions", Kinvey.DataStoreType.Network);
+            var promise = dataStore.save(condition).then(function onSuccess(entity) {
+                console.log("Successfully saved: " + entity);
+                completed(true);
+            }).catch(function onError(error) {
+                console.log("Error occured during entity saving" + error);
+                completed(false, error);
+            });
+        }
     }
     WeatherConditionsManager.maxTemperature = 40;
     WeatherConditionsManager.minTemperature = -40;
