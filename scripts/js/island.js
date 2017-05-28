@@ -25,7 +25,6 @@ class ColorRGB {
 class IslandArea {
     constructor(conditionsManager) {
         this.weatherCondition = new Kinvey.WeatherCondition();
-        this.isRainOn = false;
         this.skyMinColor = new ColorRGB(95, 201, 226);
         this.skyMaxColor = new ColorRGB(0, 206, 255);
         this.conditionsManager = conditionsManager;
@@ -54,18 +53,20 @@ class IslandArea {
             if (this.weatherCondition.cloudness > this.clouds.length) {
                 this.weatherCondition.cloudness = 0;
                 this.hideClouds();
+                this.setPrecipitationEnabled(false);
             }
             else {
                 this.showCloud(this.clouds[this.weatherCondition.cloudness - 1]);
+                this.setPrecipitationEnabled(true);
             }
         });
         // Set up rain tool
-        this.rains = [$(".rain-big"), $(".rain-medium"), $(".rain-small")];
-        let rainButton = $(".tool-button.rain");
-        rainButton.on("click", (e) => {
+        this.precipitations = [$(".rain-big"), $(".rain-medium"), $(".rain-small")];
+        this.precipitationButton = $(".tool-button.rain");
+        this.precipitationButton.on("click", (e) => {
             e.preventDefault();
-            this.isRainOn = !this.isRainOn;
-            this.switchRainState(this.isRainOn);
+            this.weatherCondition.precipitation = !this.weatherCondition.precipitation;
+            this.switchPrecipitationState(this.weatherCondition.precipitation);
         });
         // Set up datepicker modal appearing
         let dateButton = $(".header-date");
@@ -129,6 +130,7 @@ class IslandArea {
         this.updateWindForceLabel(this.weatherCondition.windForce);
         this.setCloudsLevel(this.weatherCondition.cloudness);
         this.setDirectionLabelForAngle(directionAngle);
+        this.switchPrecipitationState(this.weatherCondition.precipitation);
     }
     /* Dependent graphical components */
     // Sets the temperature label in Celsius degrees
@@ -172,13 +174,23 @@ class IslandArea {
         cloud.animate({ "opacity": 1 }, 400);
     }
     // Shows or hides rain according to the given value
-    switchRainState(isOn) {
-        for (let item of this.rains) {
+    switchPrecipitationState(isOn) {
+        for (let item of this.precipitations) {
             item.css("display", isOn ? "block" : "none");
         }
     }
     setDirectionLabelForAngle(angle) {
         $(".compass-direction").text(this.angleToDirection(angle));
+    }
+    setPrecipitationEnabled(isEnabled) {
+        if (isEnabled) {
+            this.precipitationButton.css("pointer-events", "auto");
+        }
+        else {
+            this.weatherCondition.precipitation = false;
+            this.switchPrecipitationState(false);
+            this.precipitationButton.css("pointer-events", "none");
+        }
     }
     /* Helpers methods */
     angleToDirection(angle) {

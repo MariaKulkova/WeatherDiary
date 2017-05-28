@@ -35,16 +35,16 @@ class IslandArea {
 
     private conditionsManager: Kinvey.WeatherConditionsManager
     private weatherCondition: Kinvey.WeatherCondition = new Kinvey.WeatherCondition()
-    private isRainOn: boolean = false
 
     // Weather condition components
     private sunSlider: Slider.CircleSlider
     private windForceSlider: Slider.CircleSlider
     private windCompass: Compass.WindCompass
     private clouds: Array<JQuery>
-    private rains: Array<JQuery>
+    private precipitations: Array<JQuery>
     private skyMinColor: ColorRGB = new ColorRGB(95, 201, 226)
     private skyMaxColor: ColorRGB = new ColorRGB(0, 206, 255)
+    private precipitationButton: JQuery 
 
     constructor(conditionsManager: Kinvey.WeatherConditionsManager) {
         this.conditionsManager = conditionsManager
@@ -75,19 +75,21 @@ class IslandArea {
             if (this.weatherCondition.cloudness > this.clouds.length) {
                 this.weatherCondition.cloudness = 0
                 this.hideClouds()
+                this.setPrecipitationEnabled(false)
             }
             else {
                 this.showCloud(this.clouds[this.weatherCondition.cloudness - 1])
+                this.setPrecipitationEnabled(true)
             }
         })
 
         // Set up rain tool
-        this.rains = [$(".rain-big"), $(".rain-medium"), $(".rain-small")]
-        let rainButton = $(".tool-button.rain")
-        rainButton.on("click", (e: BaseJQueryEventObject) => {
+        this.precipitations = [$(".rain-big"), $(".rain-medium"), $(".rain-small")]
+        this.precipitationButton = $(".tool-button.rain")
+        this.precipitationButton.on("click", (e: BaseJQueryEventObject) => {
             e.preventDefault()
-            this.isRainOn = !this.isRainOn
-            this.switchRainState(this.isRainOn)
+            this.weatherCondition.precipitation = !this.weatherCondition.precipitation
+            this.switchPrecipitationState(this.weatherCondition.precipitation)
         })
 
         // Set up datepicker modal appearing
@@ -170,6 +172,7 @@ class IslandArea {
         this.updateWindForceLabel(this.weatherCondition.windForce)
         this.setCloudsLevel(this.weatherCondition.cloudness)
         this.setDirectionLabelForAngle(directionAngle)
+        this.switchPrecipitationState(this.weatherCondition.precipitation)
     }
 
     /* Dependent graphical components */
@@ -222,14 +225,25 @@ class IslandArea {
     }
 
     // Shows or hides rain according to the given value
-    private switchRainState(isOn: boolean) {
-        for (let item of this.rains) {
+    private switchPrecipitationState(isOn: boolean) {
+        for (let item of this.precipitations) {
             item.css("display", isOn ? "block" : "none")
         }
     }
 
     private setDirectionLabelForAngle(angle: number) {
         $(".compass-direction").text(this.angleToDirection(angle))
+    }
+
+    private setPrecipitationEnabled(isEnabled: boolean) {
+        if (isEnabled) {
+            this.precipitationButton.css("pointer-events", "auto")
+        }
+        else {
+            this.weatherCondition.precipitation = false
+            this.switchPrecipitationState(false)
+            this.precipitationButton.css("pointer-events", "none")
+        }
     }
 
     /* Helpers methods */

@@ -48,7 +48,7 @@ var Kinvey;
             this.date = new Date();
             this.temperature = 0;
             this.cloudness = 0;
-            this.precipitation = 0 /* none */;
+            this.precipitation = false;
             this.windForce = 0;
             this.windDirection = 0;
         }

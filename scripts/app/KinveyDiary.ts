@@ -74,7 +74,7 @@ namespace Kinvey {
         date: Date = new Date()
         temperature: number = 0
         cloudness: number = 0
-        precipitation: PrecipitationType = PrecipitationType.none
+        precipitation: boolean = false
         windForce: number = 0
         windDirection: CompassPoints = 0
     }
