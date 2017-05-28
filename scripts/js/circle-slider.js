@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/@types/d3/index.d.ts"/>
+/// <reference path="./geometry.ts"/>
 var Slider;
 (function (Slider) {
     class RotateAttributes {
@@ -18,13 +19,6 @@ var Slider;
         }
     }
     Slider.RotateAttributes = RotateAttributes;
-    class Point {
-        constructor(x, y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
-    Slider.Point = Point;
     class CircleSlider {
         constructor(sliderContainer, imageUrl, dragElementSizeRatio, rotateAttributes, onValueChangedListener) {
             this.width = 100;
@@ -35,8 +29,8 @@ var Slider;
             this.dragElementSizeRatio = this.width * dragElementSizeRatio;
             this.rotateAttributes = rotateAttributes;
             this.onValueChangedListener = onValueChangedListener;
-            let startAngleRad = this.degreesToRadians(this.rotateAttributes.startAngle);
-            this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad), -(this.height * this.rotateAttributes.radius) * Math.sin(startAngleRad));
+            let startAngleRad = Geometry.degreesToRadians(this.rotateAttributes.startAngle);
+            this.savedVector = new Geometry.Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad), -this.height * this.rotateAttributes.radius * Math.sin(startAngleRad));
         }
         render() {
             this.sliderContainer
@@ -47,7 +41,7 @@ var Slider;
                 this.dragElement.classed("dragging", true);
             };
             let dragged = (d) => {
-                let currentVector = new Point(d3.event.x, d3.event.y);
+                let currentVector = new Geometry.Point(d3.event.x, d3.event.y);
                 let currentVectorAngle = this.angleForPoint(currentVector);
                 // Determine rotation limitation
                 let oldVectorAngle = this.angleForPoint(this.savedVector);
@@ -56,15 +50,15 @@ var Slider;
                     deltaAngle = -deltaAngle;
                 }
                 let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle);
-                let newCumulativeAngle = this.cumulativeAngle - this.radiansToDegrees(deltaAngle);
+                let newCumulativeAngle = this.cumulativeAngle - Geometry.radiansToDegrees(deltaAngle);
                 if (newCumulativeAngle <= arcLength && newCumulativeAngle >= 0) {
                     this.cumulativeAngle = newCumulativeAngle;
-                    let alphaDegrees = this.radiansToDegrees(currentVectorAngle);
+                    let alphaDegrees = Geometry.radiansToDegrees(currentVectorAngle);
                     var progress = this.cumulativeAngle / arcLength;
                     this.onValueChangedListener(progress);
                     this.dragElement
-                        .attr("x", d.x = (this.width * this.rotateAttributes.radius) * Math.cos(currentVectorAngle))
-                        .attr("y", d.y = -(this.height * this.rotateAttributes.radius) * Math.sin(currentVectorAngle))
+                        .attr("x", d.x = this.width * this.rotateAttributes.radius * Math.cos(currentVectorAngle))
+                        .attr("y", d.y = -this.height * this.rotateAttributes.radius * Math.sin(currentVectorAngle))
                         .style("transform", d.rotateTransformation = "rotate(" + alphaDegrees + "deg)");
                     this.savedVector = currentVector;
                 }
@@ -104,7 +98,7 @@ var Slider;
             let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle);
             this.cumulativeAngle = arcLength * value;
             let realAngle = this.rotateAttributes.startAngle - this.cumulativeAngle;
-            this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(this.degreesToRadians(realAngle)), -this.height * this.rotateAttributes.radius * Math.sin(this.degreesToRadians(realAngle)));
+            this.savedVector = new Geometry.Point(this.width * this.rotateAttributes.radius * Math.cos(Geometry.degreesToRadians(realAngle)), -this.height * this.rotateAttributes.radius * Math.sin(Geometry.degreesToRadians(realAngle)));
             // We should reinitialize data binding for correct slider work
             let initialCoordinates = [{
                     x: this.savedVector.x,
@@ -144,12 +138,6 @@ var Slider;
             let tempNumber = value * factor;
             var roundedTempNumber = Math.round(tempNumber);
             return roundedTempNumber / factor;
-        }
-        degreesToRadians(angle) {
-            return angle * Math.PI / 180;
-        }
-        radiansToDegrees(angle) {
-            return angle * 180 / Math.PI;
         }
     }
     Slider.CircleSlider = CircleSlider;

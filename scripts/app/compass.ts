@@ -1,63 +1,73 @@
 declare var d3: any;
+/// <reference path="../../node_modules/@types/d3/index.d.ts"/>
+/// <reference path="./geometry.ts"/>
 
-var compassAngleCallback;
+namespace Compass {
 
-var compassDrag = d3.drag()
-    .on("start", compassDragStarted)
-    .on("drag", compassDragged)
-    .on("end", compassDragEnded);
+    export class WindCompass {
+        private onValueChangedListenter: (value: number) => void
+        private compassHandler: d3.Selection<any, any, any, any>
+        private compass: d3.Selection<any, any, any, any>
+        private compassOriginAngle: number = 0
+        private compassAngle: number = 0
 
-var compassOriginAngle = 0
-var compassAngle = 0
+        constructor(onValueChangedListenter: (value: number) => void) {
+            this.onValueChangedListenter = onValueChangedListenter
 
-function getCompassHandler() {
-    return d3.select("div.compass-drag-handler")
-}
+            var compassDrag = d3.drag()
+                .on("start", () => { this.dragStarted() })
+                .on("drag", () => { this.didDragged() })
+                .on("end", () => { this.dragEnded() })
+            this.compassHandler = d3.select("div.compass-drag-handler").call(compassDrag)
+            this.compass = d3.select("div.compass")
+        }
 
-function getCompass() {
-    return d3.select("div.compass")
-}
+        public render() {
+            this.rotateCompass(0)
+        }
 
-getCompassHandler().call(compassDrag)
+        /* Darg handling */
 
-function rotateCompass(angle) {
-    getCompass().style("transform", "rotate(" + angle + "deg)");
-    
-    if (compassAngleCallback) {
-        compassAngleCallback(angle)
+        private dragStarted() {
+            this.compassAngle = this.getCompassAngle(this.translateCompassCoordinates(d3.event))
+        }
+
+        private didDragged() {
+            var angle = this.getCompassAngle(this.translateCompassCoordinates(d3.event))
+            this.rotateCompass(this.compassOriginAngle += (angle - this.compassAngle));
+            this.compassAngle = angle
+        }
+
+        private dragEnded() {
+            var angle = this.getCompassAngle(this.translateCompassCoordinates(d3.event))
+            this.compassOriginAngle += (angle - this.compassAngle)
+            // Determines the step for slider sticking position in degrees
+            var stickAngle = 45
+            // Calculates total angle rounding it to the closest stick position
+            var angleAmount = Math.round(this.compassOriginAngle / stickAngle)
+            this.compassOriginAngle = stickAngle * angleAmount
+            this.rotateCompass(this.compassOriginAngle);
+
+            if (this.onValueChangedListenter) {
+                let fullCircleArch = 360
+                // Discard full circles and return only actual offset
+                this.onValueChangedListenter(this.compassOriginAngle % fullCircleArch)
+            }
+        }
+
+        /* Rotation calculations */
+
+        private rotateCompass(angle: number) {
+            this.compass.style("transform", "rotate(" + angle + "deg)");
+        }
+
+        private translateCompassCoordinates(coordinates: Geometry.Point) {
+            var bounds = this.compassHandler.node().getBoundingClientRect()
+            return new Geometry.Point(coordinates.x - bounds.width / 2, -(coordinates.y - bounds.height / 2))
+        }
+
+        private getCompassAngle(position: Geometry.Point) {
+            return Geometry.radiansToDegrees(Math.atan2(position.x, position.y))
+        }
     }
 }
-
-function translateCompassCoordinates(coordinates) {
-    var bounds = getCompassHandler().node().getBoundingClientRect()
-    return {
-        x: coordinates.x - bounds.width / 2,
-        y: -(coordinates.y - bounds.height / 2)
-    }
-}
-
-function getCompassAngle(pos) {
-    return Math.atan2(pos.x, pos.y) * 180 / Math.PI
-}
-
-function compassDragStarted() {
-    compassAngle = getCompassAngle(translateCompassCoordinates(d3.event))
-}
-
-function compassDragged() {
-    var angle = getCompassAngle(translateCompassCoordinates(d3.event))
-    rotateCompass(compassOriginAngle += (angle - compassAngle));
-    compassAngle = angle
-}
-
-function compassDragEnded() {
-    var angle = getCompassAngle(translateCompassCoordinates(d3.event))
-    compassOriginAngle += (angle - compassAngle)
-    // Determines the step for slider sticking position in degrees
-    var stickAngle = 45
-    // Calculates total angle rounding it to the closest stick position
-    var angleAmount = Math.round(compassOriginAngle / stickAngle)
-    rotateCompass(compassOriginAngle = stickAngle * angleAmount);
-}
-
-rotateCompass(0)

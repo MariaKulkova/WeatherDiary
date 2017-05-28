@@ -1,6 +1,7 @@
 declare var d3: any;
 /// <reference path="./circle-slider.ts"/>
 /// <reference path="./KinveyAuth.ts"/>
+/// <reference path="./compass.ts"/>
 
 class ColorRGB {
     red: number = 0
@@ -39,7 +40,7 @@ class IslandArea {
     // Weather condition components
     private sunSlider: Slider.CircleSlider
     private windForceSlider: Slider.CircleSlider
-    private windCompass: JQuery
+    private windCompass: Compass.WindCompass
     private clouds: Array<JQuery>
     private rains: Array<JQuery>
     private skyMinColor: ColorRGB = new ColorRGB(95, 201, 226)
@@ -118,9 +119,16 @@ class IslandArea {
             d3.select("svg.sun-slider-container"),
             "img/sun-plain.png",
             0.4,
-            new Slider.Point(1, 1), 0.95, 180, 90,
+            new Geometry.Point(1, 1), 0.95, 180, 90,
             temperatureCallback)
         this.sunSlider.render()
+
+        // Compass component
+        let compassCallback = (angle: number) => {
+            console.log(angle)
+        }
+        this.windCompass = new Compass.WindCompass(compassCallback)
+        this.windCompass.render()
         
         // Wind force slider initialization
         let windForceCallback = (progress: number) => {
@@ -131,7 +139,7 @@ class IslandArea {
             d3.select("svg.wind-slider-container"),
             "img/windforce-drag-element.png",
             0.3,
-            new Slider.Point(0.5, 0.5), 0.5, 225, -45,
+            new Geometry.Point(0.5, 0.5), 0.5, 225, -45,
             windForceCallback)
         this.windForceSlider.render()
 
@@ -217,7 +225,7 @@ class IslandArea {
     private static circleSliderForAttributes(container: d3.Selection<any, any, any, any>,
                                      dragItemPicture: string,
                                      dragItemSizeRatio: number,
-                                     rotateAnchorPoint: Slider.Point,
+                                     rotateAnchorPoint: Geometry.Point,
                                      rotateRadiusRatio: number,
                                      startAngle: number, 
                                      endAngle: number,

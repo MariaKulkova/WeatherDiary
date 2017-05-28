@@ -1,5 +1,6 @@
 /// <reference path="./circle-slider.ts"/>
 /// <reference path="./KinveyAuth.ts"/>
+/// <reference path="./compass.ts"/>
 class ColorRGB {
     constructor(red, green, blue) {
         this.red = 0;
@@ -88,14 +89,20 @@ class IslandArea {
             this.updateTemperatureComponent(formattedValue);
             this.updateSkyComponent(progress);
         };
-        this.sunSlider = IslandArea.circleSliderForAttributes(d3.select("svg.sun-slider-container"), "img/sun-plain.png", 0.4, new Slider.Point(1, 1), 0.95, 180, 90, temperatureCallback);
+        this.sunSlider = IslandArea.circleSliderForAttributes(d3.select("svg.sun-slider-container"), "img/sun-plain.png", 0.4, new Geometry.Point(1, 1), 0.95, 180, 90, temperatureCallback);
         this.sunSlider.render();
+        // Compass component
+        let compassCallback = (angle) => {
+            console.log(angle);
+        };
+        this.windCompass = new Compass.WindCompass(compassCallback);
+        this.windCompass.render();
         // Wind force slider initialization
         let windForceCallback = (progress) => {
             let formattedValue = Math.round(Kinvey.WeatherConditionsManager.maxWindForce * progress);
             this.updateWindForceLabel(formattedValue);
         };
-        this.windForceSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Slider.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
+        this.windForceSlider = IslandArea.circleSliderForAttributes(d3.select("svg.wind-slider-container"), "img/windforce-drag-element.png", 0.3, new Geometry.Point(0.5, 0.5), 0.5, 225, -45, windForceCallback);
         this.windForceSlider.render();
         this.initializeStartValues();
     }

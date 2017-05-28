@@ -418,7 +418,7 @@ body {
     right: 0px;
     overflow: visible;
     transform-origin: center center;
-    background: url(../img/compas-scale.png) no-repeat;
+    background: url(../img/compass-scale.png) no-repeat;
 	background-size: contain; 
 }
 

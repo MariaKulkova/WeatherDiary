@@ -1,4 +1,5 @@
 /// <reference path="../../node_modules/@types/d3/index.d.ts"/>
+/// <reference path="./geometry.ts"/>
 
 namespace Slider {
 
@@ -38,17 +39,6 @@ namespace Slider {
 
   }
 
-  export class Point {
-    x: number
-    y: number
-
-    constructor(x: number,
-                y: number) {
-      this.x = x
-      this.y = y
-    }
-  }
-
   export class CircleSlider {
     private readonly width: number = 100
     private readonly height: number = 100
@@ -60,7 +50,7 @@ namespace Slider {
     private onValueChangedListener: (value: number) => void
     private dragElement: d3.Selection<any, any, any, any>
 
-    private savedVector: Point
+    private savedVector: Geometry.Point
     private cumulativeAngle: number = 0
 
     constructor(sliderContainer: d3.Selection<any, any, any, any>,
@@ -74,9 +64,9 @@ namespace Slider {
         this.rotateAttributes = rotateAttributes
         this.onValueChangedListener = onValueChangedListener
 
-        let startAngleRad = this.degreesToRadians(this.rotateAttributes.startAngle)
-        this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad),
-                                    -(this.height * this.rotateAttributes.radius) * Math.sin(startAngleRad))
+        let startAngleRad = Geometry.degreesToRadians(this.rotateAttributes.startAngle)
+        this.savedVector = new Geometry.Point(this.width * this.rotateAttributes.radius * Math.cos(startAngleRad),
+                                              -this.height * this.rotateAttributes.radius * Math.sin(startAngleRad))
     }
 
     public render() {
@@ -90,7 +80,7 @@ namespace Slider {
       }
 
       let dragged = (d: DragCoordinates) => {
-        let currentVector = new Point(d3.event.x, d3.event.y)
+        let currentVector = new Geometry.Point(d3.event.x, d3.event.y)
         let currentVectorAngle = this.angleForPoint(currentVector)
 
         // Determine rotation limitation
@@ -101,16 +91,16 @@ namespace Slider {
         }
 
         let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle)
-        let newCumulativeAngle = this.cumulativeAngle - this.radiansToDegrees(deltaAngle)
+        let newCumulativeAngle = this.cumulativeAngle - Geometry.radiansToDegrees(deltaAngle)
         if (newCumulativeAngle <= arcLength && newCumulativeAngle >= 0) {
           this.cumulativeAngle = newCumulativeAngle
 
-          let alphaDegrees = this.radiansToDegrees(currentVectorAngle)
+          let alphaDegrees = Geometry.radiansToDegrees(currentVectorAngle)
           var progress = this.cumulativeAngle / arcLength
           this.onValueChangedListener(progress)
           this.dragElement
-            .attr("x", d.x = (this.width * this.rotateAttributes.radius) * Math.cos(currentVectorAngle))
-            .attr("y", d.y = -(this.height * this.rotateAttributes.radius) * Math.sin(currentVectorAngle))
+            .attr("x", d.x = this.width * this.rotateAttributes.radius * Math.cos(currentVectorAngle))
+            .attr("y", d.y = -this.height * this.rotateAttributes.radius * Math.sin(currentVectorAngle))
             .style("transform", d.rotateTransformation = "rotate(" + alphaDegrees + "deg)");
 
           this.savedVector = currentVector
@@ -157,8 +147,8 @@ namespace Slider {
       let arcLength = Math.abs(this.rotateAttributes.endAngle - this.rotateAttributes.startAngle)
       this.cumulativeAngle = arcLength * value
       let realAngle = this.rotateAttributes.startAngle - this.cumulativeAngle
-      this.savedVector = new Point(this.width * this.rotateAttributes.radius * Math.cos(this.degreesToRadians(realAngle)),
-                                  -this.height * this.rotateAttributes.radius * Math.sin(this.degreesToRadians(realAngle)))
+      this.savedVector = new Geometry.Point(this.width * this.rotateAttributes.radius * Math.cos(Geometry.degreesToRadians(realAngle)),
+                                           -this.height * this.rotateAttributes.radius * Math.sin(Geometry.degreesToRadians(realAngle)))
       
       // We should reinitialize data binding for correct slider work
       let initialCoordinates: [DragCoordinates] = [{ 
@@ -179,12 +169,12 @@ namespace Slider {
 
     // Helpers methods
 
-    private isRotateClockwise(start: Point, end: Point): boolean {
+    private isRotateClockwise(start: Geometry.Point, end: Geometry.Point): boolean {
       let orientedArea = start.y * end.x - start.x * end.y
       return orientedArea < 0
     }
 
-    private angleBetweenVectors(start: Point, end: Point): number {
+    private angleBetweenVectors(start: Geometry.Point, end: Geometry.Point): number {
       let startLength = Math.sqrt(Math.pow(start.x, 2) + Math.pow(start.y, 2))
       let endLength = Math.sqrt(Math.pow(end.x, 2) + Math.pow(end.y, 2))
       let cosValue = (start.x * end.x + start.y * end.y) / (startLength * endLength)
@@ -192,7 +182,7 @@ namespace Slider {
       return alpha
     }
 
-    private angleForPoint(point: Point): number {
+    private angleForPoint(point: Geometry.Point): number {
       var currentVectorLength = Math.sqrt(Math.pow(point.x, 2) + Math.pow(point.y, 2));
       var alpha = Math.acos(point.x / currentVectorLength);
       if (point.y > 0) {
@@ -207,14 +197,5 @@ namespace Slider {
       var roundedTempNumber = Math.round(tempNumber)
       return roundedTempNumber / factor
     }
-
-    private degreesToRadians(angle: number): number {
-      return angle * Math.PI / 180
-    }
-
-    private radiansToDegrees(angle: number): number {
-      return angle * 180 / Math.PI
-    }
-
   }
 }
