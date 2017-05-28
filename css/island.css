@@ -401,7 +401,7 @@ body {
     width: 30%;
     position: absolute;
     right: -5%;
-    top: 45%;
+    top: 40%;
 }
 
 .compass-wrapper:before {
@@ -473,7 +473,7 @@ body {
 
 .tools-container {
     position: absolute;
-    top: 0; right: 0;
+    top: 0; right: 6%;
     width: 7%;
     height: 25%;
     display: flex;
@@ -514,4 +514,24 @@ body {
 .tool-rainbow {
     background: url(../img/rainbow-tool.png) center center no-repeat;
     background-size: contain;
+}
+
+/* Save button */
+
+#save-button {
+    position: absolute;
+    bottom: 14%; right: 0;
+    width: 20%; height: 7%;
+	background-color: #11B511;
+    border: none;
+    border-radius: 12px;
+    font-family: cuprum-regular;
+    font-size: 2vmin;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+#save-button:active {
+    box-shadow: none;
 }
