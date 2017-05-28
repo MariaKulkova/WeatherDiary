@@ -45,6 +45,10 @@ var Compass;
                 console.log(formattedAngle);
             }
         }
+        setRotateAngle(angle) {
+            this.rotateCompass(angle);
+            this.compassOriginAngle = angle;
+        }
         /* Rotation calculations */
         rotateCompass(angle) {
             this.compass.style("transform", "rotate(" + angle + "deg)");

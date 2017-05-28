@@ -44,6 +44,14 @@ var Kinvey;
     }
     Kinvey_1.directionNameForCompassPoint = directionNameForCompassPoint;
     class WeatherCondition {
+        constructor() {
+            this.date = new Date();
+            this.temperature = 0;
+            this.cloudness = 0;
+            this.precipitation = 0 /* none */;
+            this.windForce = 0;
+            this.windDirection = 0;
+        }
     }
     Kinvey_1.WeatherCondition = WeatherCondition;
     class WeatherConditionsManager {

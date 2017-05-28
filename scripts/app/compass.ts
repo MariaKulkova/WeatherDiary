@@ -59,6 +59,11 @@ namespace Compass {
             }
         }
 
+        public setRotateAngle(angle: number) {
+            this.rotateCompass(angle)
+            this.compassOriginAngle = angle
+        }
+
         /* Rotation calculations */
 
         private rotateCompass(angle: number) {

@@ -71,12 +71,12 @@ namespace Kinvey {
     }
 
     export class WeatherCondition {
-        date: Date
-        temperature: number
-        cloudness: number
-        precipitation: PrecipitationType
-        windForce: number
-        windDirection: CompassPoints
+        date: Date = new Date()
+        temperature: number = 0
+        cloudness: number = 0
+        precipitation: PrecipitationType = PrecipitationType.none
+        windForce: number = 0
+        windDirection: CompassPoints = 0
     }
 
     export class WeatherConditionsManager {

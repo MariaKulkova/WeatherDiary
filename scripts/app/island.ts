@@ -34,7 +34,7 @@ class ColorRGB {
 class IslandArea {
 
     private conditionsManager: Kinvey.WeatherConditionsManager
-    private weatherCondition: Kinvey.WeatherCondition
+    private weatherCondition: Kinvey.WeatherCondition = new Kinvey.WeatherCondition()
     private isRainOn: boolean = false
 
     // Weather condition components
@@ -125,7 +125,7 @@ class IslandArea {
 
         // Compass component
         let compassCallback = (angle: number) => {
-            $(".compass-direction").text(this.angleToDirection(angle))
+            this.setDirectionLabelForAngle(angle)
         }
         this.windCompass = new Compass.WindCompass(compassCallback)
         this.windCompass.render()
@@ -144,24 +144,32 @@ class IslandArea {
         this.windForceSlider.render()
 
         this.initializeStartValues()
+        this.fetchConditionsData()
     }
 
-    initializeStartValues() {
+    private fetchConditionsData() {
         this.conditionsManager.fetchCondition(new Date(), (condition: Kinvey.WeatherCondition) => {
             this.weatherCondition = condition
-            
-            let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
-            let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
-            let temperatureProgress = (condition.temperature - minTemperature) / (maxTemperature - minTemperature)
-            this.sunSlider.setProgressValue(temperatureProgress)
-
-            let windForceProgress = condition.windForce / Kinvey.WeatherConditionsManager.maxWindForce
-            this.windForceSlider.setProgressValue(windForceProgress)
-            
-            this.updateTemperatureComponent(condition.temperature)
-            this.updateWindForceLabel(condition.windForce)
-            this.setCloudsLevel(condition.cloudness)
+            this.initializeStartValues()
         })
+    }
+
+    private initializeStartValues() {
+        // Initialize values for modificators
+        let maxTemperature = Kinvey.WeatherConditionsManager.maxTemperature
+        let minTemperature = Kinvey.WeatherConditionsManager.minTemperature
+        let temperatureProgress = (this.weatherCondition.temperature - minTemperature) / (maxTemperature - minTemperature)
+        this.sunSlider.setProgressValue(temperatureProgress)
+        let windForceProgress = this.weatherCondition.windForce / Kinvey.WeatherConditionsManager.maxWindForce
+        this.windForceSlider.setProgressValue(windForceProgress)
+        let directionAngle = this.weatherCondition.windDirection * 45
+        this.windCompass.setRotateAngle(directionAngle)
+        
+        // Initialize values for dependent components
+        this.updateTemperatureComponent(this.weatherCondition.temperature)
+        this.updateWindForceLabel(this.weatherCondition.windForce)
+        this.setCloudsLevel(this.weatherCondition.cloudness)
+        this.setDirectionLabelForAngle(directionAngle)
     }
 
     /* Dependent graphical components */
@@ -218,6 +226,10 @@ class IslandArea {
         for (let item of this.rains) {
             item.css("display", isOn ? "block" : "none")
         }
+    }
+
+    private setDirectionLabelForAngle(angle: number) {
+        $(".compass-direction").text(this.angleToDirection(angle))
     }
 
     /* Helpers methods */
