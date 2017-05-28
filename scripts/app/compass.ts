@@ -49,9 +49,13 @@ namespace Compass {
             this.rotateCompass(this.compassOriginAngle);
 
             if (this.onValueChangedListenter) {
-                let fullCircleArch = 360
                 // Discard full circles and return only actual offset
-                this.onValueChangedListenter(this.compassOriginAngle % fullCircleArch)
+                let formattedAngle = (this.compassOriginAngle % 360)
+                if (formattedAngle < 0) {
+                    formattedAngle += 360
+                }
+                this.onValueChangedListenter(formattedAngle)
+                console.log(formattedAngle)
             }
         }
 

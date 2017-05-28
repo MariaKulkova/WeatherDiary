@@ -1,5 +1,48 @@
 var Kinvey;
 (function (Kinvey_1) {
+    function directionNameForCompassPoint(point) {
+        let directionString;
+        switch (point) {
+            case 1 /* north */: {
+                directionString = "С";
+                break;
+            }
+            case 8 /* northeast */: {
+                directionString = "СВ";
+                break;
+            }
+            case 7 /* east */: {
+                directionString = "В";
+                break;
+            }
+            case 6 /* southeast */: {
+                directionString = "ЮВ";
+                break;
+            }
+            case 5 /* south */: {
+                directionString = "Ю";
+                break;
+            }
+            case 4 /* southwest */: {
+                directionString = "ЮЗ";
+                break;
+            }
+            case 3 /* west */: {
+                directionString = "З";
+                break;
+            }
+            case 2 /* northwest */: {
+                directionString = "СЗ";
+                break;
+            }
+            default: {
+                directionString = "";
+                break;
+            }
+        }
+        return directionString;
+    }
+    Kinvey_1.directionNameForCompassPoint = directionNameForCompassPoint;
     class WeatherCondition {
     }
     Kinvey_1.WeatherCondition = WeatherCondition;

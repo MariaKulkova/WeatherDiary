@@ -93,7 +93,7 @@ class IslandArea {
         this.sunSlider.render();
         // Compass component
         let compassCallback = (angle) => {
-            console.log(angle);
+            $(".compass-direction").text(this.angleToDirection(angle));
         };
         this.windCompass = new Compass.WindCompass(compassCallback);
         this.windCompass.render();
@@ -168,6 +168,10 @@ class IslandArea {
         }
     }
     /* Helpers methods */
+    angleToDirection(angle) {
+        let direction = angle / 45 + 1;
+        return Kinvey.directionNameForCompassPoint(direction);
+    }
     static circleSliderForAttributes(container, dragItemPicture, dragItemSizeRatio, rotateAnchorPoint, rotateRadiusRatio, startAngle, endAngle, callback) {
         let rotate = new Slider.RotateAttributes(rotateAnchorPoint.x, rotateAnchorPoint.y, rotateRadiusRatio, startAngle, endAngle);
         return new Slider.CircleSlider(container, dragItemPicture, dragItemSizeRatio, rotate, callback);

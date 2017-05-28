@@ -125,7 +125,7 @@ class IslandArea {
 
         // Compass component
         let compassCallback = (angle: number) => {
-            console.log(angle)
+            $(".compass-direction").text(this.angleToDirection(angle))
         }
         this.windCompass = new Compass.WindCompass(compassCallback)
         this.windCompass.render()
@@ -221,6 +221,11 @@ class IslandArea {
     }
 
     /* Helpers methods */
+
+    private angleToDirection(angle: number): string {
+        let direction: Kinvey.CompassPoints = angle / 45 + 1
+        return Kinvey.directionNameForCompassPoint(direction)
+    }
 
     private static circleSliderForAttributes(container: d3.Selection<any, any, any, any>,
                                      dragItemPicture: string,

@@ -8,6 +8,12 @@
 	src: url(../fonts/cuprum_regular.ttf);
 }
 
+@font-face {
+	font-family: PTMono-bold;
+	src: url(../fonts/PT-Mono.ttf);
+}
+
+
 html {
 	background: #ccc;
 	min-height: 100%;
@@ -401,21 +407,51 @@ body {
     width: 30%;
     position: absolute;
     right: -5%;
-    top: 40%;
+    top: 35%;
 }
 
 .compass-wrapper:before {
     content: "";
     display: block;
-    padding-top: 100%;
+    padding-top: 125%;
+}
+
+/* Direction label */
+
+.compass-direction-container {
+    position: absolute;
+    left: 0; bottom: 83%; top: 0; right: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.compass-direction-indicator {
+    display: block;
+    width: 10%;
+    height: 30%;
+    background: url(../img/wind-direction-pointer.png) no-repeat;
+	background-size: contain; 
+}
+
+.compass-direction {
+    margin: 0;
+    font-size: 1.5vw;
+    font-family: PTMono-bold;
+    color: #FFF;
+}
+
+/* Wind direction modificator */
+
+.compass-container {
+    position: absolute;
+    left: 0; bottom: 0; top: 20%; right: 0;
 }
 
 .compass {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
+    left: 0; bottom: 0; top: 0; right: 0;
     overflow: visible;
     transform-origin: center center;
     background: url(../img/compass-scale.png) no-repeat;
@@ -424,11 +460,19 @@ body {
 
 .compass-drag-handler {
     position: absolute;
-    left: 0px;
-    bottom: 0px;
-    top: 0px;
-    right: 0px;
+    left: 0; bottom: 0; top: 0; right: 0;
     overflow: visible;
+}
+
+/* Wind force slider */
+
+.wind-slider-container {
+    position: absolute;
+    overflow: visible;
+    top: 0; left: 0; bottom: 0; right: 0;
+    margin: 25%;
+    background: url(../img/windforce-path.png) no-repeat;
+    background-size: contain; 
 }
 
 .windForce {
@@ -452,6 +496,8 @@ body {
     overflow: visible;
 }
 
+/* Wind force label */
+
 .windforce-label {
     position: absolute;
     top: 0px; left: 0px; bottom: 0px; right: 0px;
@@ -465,7 +511,7 @@ body {
 .windforce-label p {
 	margin: 0;
     font-family: cuprum-regular;
-	font-size: 3vmin;
+	font-size: 2vw;
 	color: #FFF;
 }
 

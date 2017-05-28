@@ -10,13 +10,64 @@ namespace Kinvey {
     export const enum CompassPoints {
         none,
         north,
-        northeast,
-        east,
-        southeast,
-        south,
-        southwest,
+        northwest,
         west,
-        northwest
+        southwest,
+        south,
+        southeast,
+        east,
+        northeast
+    }
+
+    export function directionNameForCompassPoint(point: CompassPoints): string {
+        let directionString: string
+        switch(point) {  
+            case CompassPoints.north: { 
+                directionString = "С" 
+                break; 
+            } 
+
+            case CompassPoints.northeast: { 
+                directionString = "СВ" 
+                break; 
+            } 
+
+            case CompassPoints.east: { 
+                directionString = "В" 
+                break; 
+            } 
+
+            case CompassPoints.southeast: { 
+                directionString = "ЮВ" 
+                break; 
+            } 
+
+            case CompassPoints.south: { 
+                directionString = "Ю" 
+                break; 
+            } 
+
+            case CompassPoints.southwest: { 
+                directionString = "ЮЗ" 
+                break; 
+            } 
+
+            case CompassPoints.west: { 
+                directionString = "З" 
+                break; 
+            } 
+
+            case CompassPoints.northwest: { 
+                directionString = "СЗ" 
+                break; 
+            } 
+
+            default: { 
+                directionString = "" 
+                break; 
+            } 
+        } 
+        return directionString
     }
 
     export class WeatherCondition {

@@ -8,12 +8,3 @@
   cursor: pointer;
 }
 
-.wind-slider-container {
-  position: absolute;
-  overflow: visible;
-  top: 0px; left: 0px; bottom: 0px; right: 0px;
-  margin: 25%;
-  background: url(../img/windforce-path.png) no-repeat;
-	background-size: contain; 
-}
-
