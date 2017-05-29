@@ -6,9 +6,10 @@ class LoginForm {
         this.authManager = authManager;
         console.log("In constructor");
         let form = $(this.container);
-        form.submit(function (e) {
+        form.submit((e) => {
             e.preventDefault();
-            console.log("Signup! Yeah!");
+            console.log("login");
+            this.authManager.signup("MariaKulkova", "1234");
         });
     }
 }

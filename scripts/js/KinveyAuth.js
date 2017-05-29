@@ -6,10 +6,11 @@ var Kinvey;
             appSecret: '719b3f1141ff44b2be957713973860ac',
             apiHostname: 'https://baas.kinvey.com'
         }).then(function (activeUser) {
-            console.log(activeUser);
+            console.log("Kinvey auth " + activeUser);
             completed(true);
         }).catch(function (error) {
             completed(false);
+            console.log(error);
         });
     }
     Kinvey_1.initializeKinvey = initializeKinvey;

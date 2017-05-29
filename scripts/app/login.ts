@@ -12,9 +12,10 @@ class LoginForm {
         console.log("In constructor")
         
         let form = $(this.container)
-        form.submit(function (e) {
+        form.submit((e: MouseEvent) => {
             e.preventDefault()
-            console.log("Signup! Yeah!");
+            console.log("login")
+            this.authManager.signup("MariaKulkova", "1234")
         });
     }
 }

@@ -121,8 +121,11 @@ class IslandArea {
     }
     fetchConditionsData() {
         this.conditionsManager.fetchCondition(new Date(), (condition) => {
-            this.weatherCondition = condition;
-            this.initializeStartValues();
+            if (condition) {
+                console.log(condition);
+                this.weatherCondition = condition;
+                this.initializeStartValues();
+            }
         });
     }
     initializeStartValues() {
@@ -213,10 +216,13 @@ class IslandArea {
     }
 }
 $(() => {
+    console.log("Island intialize");
     Kinvey.initializeKinvey(function (succeeded) {
-        let manager = new Kinvey.WeatherConditionsManager();
-        let island = new IslandArea(manager);
-        island.render();
+        if (succeeded) {
+            let manager = new Kinvey.WeatherConditionsManager();
+            let island = new IslandArea(manager);
+            island.render();
+        }
     });
 });
 //# sourceMappingURL=island.js.map
