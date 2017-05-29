@@ -283,14 +283,3 @@ class IslandArea {
         return new Slider.CircleSlider(container, dragItemPicture, dragItemSizeRatio, rotate, callback)
     }
 }
-
-$(() => {
-    console.log("Island intialize")
-    Kinvey.initializeKinvey(function(succeeded) {
-        if (succeeded) {
-            let manager = new Kinvey.WeatherConditionsManager()
-            let island = new IslandArea(manager)
-            island.render()
-        }
-    })
-});
