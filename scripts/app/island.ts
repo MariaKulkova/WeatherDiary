@@ -35,6 +35,7 @@ class IslandArea {
 
     private conditionsManager: Kinvey.WeatherConditionsManager
     private weatherCondition: Kinvey.WeatherCondition = new Kinvey.WeatherCondition()
+    private selectedDate = new Date()
 
     // Weather condition components
     private sunSlider: Slider.CircleSlider
@@ -48,6 +49,7 @@ class IslandArea {
 
     constructor(conditionsManager: Kinvey.WeatherConditionsManager) {
         this.conditionsManager = conditionsManager
+        $(".header-date").html(this.formattedStringFromDate(this.selectedDate))
 
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
@@ -60,9 +62,12 @@ class IslandArea {
             firstDay: 1,
             dateFormat: "dd.mm.yy",
             onSelect: () => {
-                let dateString = $("#datepicker").val()
+                let currentDatepicker = $("#datepicker")
+                let dateString = currentDatepicker.val()
                 $(".header-date").html(dateString)
                 $(".modal").css("display", "none")
+                this.selectedDate = currentDatepicker.datepicker("getDate")
+                this.fetchConditionsData()
             }
         });
 
@@ -110,6 +115,7 @@ class IslandArea {
         let saveButton = $(".save-button")
         saveButton.on("click", (e: BaseJQueryEventObject) => {
             e.preventDefault()
+            this.weatherCondition.date = this.selectedDate
             console.log("Save button tapped. Saved object: " + this.weatherCondition)
             this.conditionsManager.saveCondition(this.weatherCondition)
         })
@@ -161,12 +167,15 @@ class IslandArea {
     }
 
     private fetchConditionsData() {
-        this.conditionsManager.fetchCondition(new Date(), (condition: Kinvey.WeatherCondition) => {
+        this.conditionsManager.fetchCondition(this.selectedDate, (condition: Kinvey.WeatherCondition) => {
             if (condition) {
                 console.log(condition)
                 this.weatherCondition = condition
-                this.initializeStartValues()
             }
+            else {
+                this.weatherCondition = new Kinvey.WeatherCondition()
+            }
+            this.initializeStartValues()
         })
     }
 
@@ -187,6 +196,7 @@ class IslandArea {
         this.setCloudsLevel(this.weatherCondition.cloudness)
         this.setDirectionLabelForAngle(directionAngle)
         this.switchPrecipitationState(this.weatherCondition.precipitation)
+        this.updateSkyComponent(temperatureProgress)
     }
 
     /* Dependent graphical components */
@@ -281,5 +291,12 @@ class IslandArea {
                                                  startAngle, 
                                                  endAngle)
         return new Slider.CircleSlider(container, dragItemPicture, dragItemSizeRatio, rotate, callback)
+    }
+
+    private formattedStringFromDate(date: Date): string {
+        let formattedString = ('0' + date.getDate()).slice(-2) + '.' + 
+                              ('0' + (date.getMonth()+1)).slice(-2) + '.' +
+                               date.getFullYear()
+        return formattedString
     }
 }

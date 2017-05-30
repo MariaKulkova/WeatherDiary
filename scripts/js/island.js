@@ -25,9 +25,11 @@ class ColorRGB {
 class IslandArea {
     constructor(conditionsManager) {
         this.weatherCondition = new Kinvey.WeatherCondition();
+        this.selectedDate = new Date();
         this.skyMinColor = new ColorRGB(95, 201, 226);
         this.skyMaxColor = new ColorRGB(0, 206, 255);
         this.conditionsManager = conditionsManager;
+        $(".header-date").html(this.formattedStringFromDate(this.selectedDate));
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
             inline: false,
@@ -39,9 +41,12 @@ class IslandArea {
             firstDay: 1,
             dateFormat: "dd.mm.yy",
             onSelect: () => {
-                let dateString = $("#datepicker").val();
+                let currentDatepicker = $("#datepicker");
+                let dateString = currentDatepicker.val();
                 $(".header-date").html(dateString);
                 $(".modal").css("display", "none");
+                this.selectedDate = currentDatepicker.datepicker("getDate");
+                this.fetchConditionsData();
             }
         });
         // Set up clouds tool
@@ -84,6 +89,7 @@ class IslandArea {
         let saveButton = $(".save-button");
         saveButton.on("click", (e) => {
             e.preventDefault();
+            this.weatherCondition.date = this.selectedDate;
             console.log("Save button tapped. Saved object: " + this.weatherCondition);
             this.conditionsManager.saveCondition(this.weatherCondition);
         });
@@ -120,12 +126,15 @@ class IslandArea {
         this.fetchConditionsData();
     }
     fetchConditionsData() {
-        this.conditionsManager.fetchCondition(new Date(), (condition) => {
+        this.conditionsManager.fetchCondition(this.selectedDate, (condition) => {
             if (condition) {
                 console.log(condition);
                 this.weatherCondition = condition;
-                this.initializeStartValues();
             }
+            else {
+                this.weatherCondition = new Kinvey.WeatherCondition();
+            }
+            this.initializeStartValues();
         });
     }
     initializeStartValues() {
@@ -144,6 +153,7 @@ class IslandArea {
         this.setCloudsLevel(this.weatherCondition.cloudness);
         this.setDirectionLabelForAngle(directionAngle);
         this.switchPrecipitationState(this.weatherCondition.precipitation);
+        this.updateSkyComponent(temperatureProgress);
     }
     /* Dependent graphical components */
     // Sets the temperature label in Celsius degrees
@@ -213,6 +223,12 @@ class IslandArea {
     static circleSliderForAttributes(container, dragItemPicture, dragItemSizeRatio, rotateAnchorPoint, rotateRadiusRatio, startAngle, endAngle, callback) {
         let rotate = new Slider.RotateAttributes(rotateAnchorPoint.x, rotateAnchorPoint.y, rotateRadiusRatio, startAngle, endAngle);
         return new Slider.CircleSlider(container, dragItemPicture, dragItemSizeRatio, rotate, callback);
+    }
+    formattedStringFromDate(date) {
+        let formattedString = ('0' + date.getDate()).slice(-2) + '.' +
+            ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+            date.getFullYear();
+        return formattedString;
     }
 }
 //# sourceMappingURL=island.js.map
