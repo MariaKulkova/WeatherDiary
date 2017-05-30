@@ -4,17 +4,28 @@ class LoginForm {
     constructor(container, authManager) {
         this.container = container;
         this.authManager = authManager;
-        console.log("In constructor");
         let form = $(this.container);
         form.submit((e) => {
             e.preventDefault();
-            console.log("login");
-            this.authManager.signup("MariaKulkova", "1234");
+            let username = $("#login-username").value;
+            let password = $("#login-password").value;
+            this.authManager.login(username, password, (succeeded) => {
+                if (succeeded) {
+                    window.location.assign("/home.html");
+                }
+                else {
+                    alert("Error occured during login process. Please, try again later");
+                }
+            });
         });
     }
 }
 $(() => {
-    Kinvey.initializeKinvey();
+    // Kinvey.initializeKinvey((succeeded: boolean, activeUser: any) => {
+    //     if (succeeded && activeUser != null) {
+    //         window.location.assign("/home.html")
+    //     }
+    // })
     let loginActionForm = document.getElementById("login-action-form");
     console.log(loginActionForm);
     let manager = new Kinvey.AuthManager();

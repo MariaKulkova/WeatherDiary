@@ -7,7 +7,7 @@ var Kinvey;
             apiHostname: 'https://baas.kinvey.com'
         }).then(function (activeUser) {
             console.log("Kinvey auth " + activeUser);
-            completed(true);
+            completed(true, activeUser);
         }).catch(function (error) {
             completed(false);
             console.log(error);
@@ -27,7 +27,19 @@ var Kinvey;
                 // ...
             });
         }
-        login(username, password) {
+        // Performs user login to Kinvey asynchroniously
+        // Takes username and password
+        // Uses callback to notify about results
+        login(username, password, completed) {
+            var promise = Kinvey.User.login({
+                username: username,
+                password: password
+            }).then(function onSuccess(user) {
+                completed(true);
+            }).catch(function onError(error) {
+                console.log("User login failed. Reason: ", error);
+                completed(false);
+            });
         }
         logout() {
             let promise = Kinvey.User.logout();

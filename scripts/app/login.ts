@@ -9,19 +9,29 @@ class LoginForm {
         this.container = container;
         this.authManager = authManager;
 
-        console.log("In constructor")
-        
         let form = $(this.container)
         form.submit((e: MouseEvent) => {
             e.preventDefault()
-            console.log("login")
-            this.authManager.signup("MariaKulkova", "1234")
+            let username: string = $("#login-username").value
+            let password: string = $("#login-password").value
+            this.authManager.login(username, password, (succeeded: boolean) => {
+                if (succeeded) {
+                    window.location.assign("/home.html")
+                }
+                else {
+                    alert("Error occured during login process. Please, try again later")
+                }
+            })
         });
     }
 }
-
+ 
 $(() => {
-    Kinvey.initializeKinvey()
+    // Kinvey.initializeKinvey((succeeded: boolean, activeUser: any) => {
+    //     if (succeeded && activeUser != null) {
+    //         window.location.assign("/home.html")
+    //     }
+    // })
 
     let loginActionForm = document.getElementById("login-action-form") as HTMLFormElement
     console.log(loginActionForm)

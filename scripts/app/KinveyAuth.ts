@@ -1,14 +1,14 @@
 namespace Kinvey {
     declare var Kinvey: any;
 
-    export function initializeKinvey(completed?: (succeeded: boolean) => void) {
+    export function initializeKinvey(completed?: (succeeded: boolean, activeUser?: any) => void) {
         Kinvey.initialize({
             appKey: 'kid_r1QVc221Z',
             appSecret: '719b3f1141ff44b2be957713973860ac',
             apiHostname: 'https://baas.kinvey.com'
         }).then(function(activeUser) {
             console.log("Kinvey auth " + activeUser)
-            completed(true)
+            completed(true, activeUser)
         }).catch(function(error) {
             completed(false)
             console.log(error)
@@ -31,7 +31,19 @@ namespace Kinvey {
             });
         }
 
-        login(username: string, password: string): void {
+        // Performs user login to Kinvey asynchroniously
+        // Takes username and password
+        // Uses callback to notify about results
+        login(username: string, password: string, completed: (succeeded: boolean) => void): void {
+            var promise = Kinvey.User.login({
+                username: username,
+                password: password
+            }).then(function onSuccess(user) {
+                completed(true)
+            }).catch(function onError(error) {
+                console.log("User login failed. Reason: ", error)
+                completed(false)
+            })
         }
 
         logout() {

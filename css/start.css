@@ -1,0 +1,79 @@
+html {
+	background: #ccc;
+	min-height: 100%;
+	font-family: sans-serif;
+	display: flex;
+	flex-direction: column;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	background: linear-gradient(to top, #05003E, #004D86);
+	background-size: cover;
+}
+
+/*Header section*/
+
+.header {
+	width: 100%;
+	margin: 0 auto 30px;
+	padding: 10px 0 10px;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row none;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-title {
+	font-family: exo2-bold;
+	font-size: 24px;
+	color: #fff;
+	margin: 0px 0px 0px 20px;
+}
+
+/* Load content */
+
+.load-content {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-title {
+    display: block;
+	font-family: cuprum-regular;
+	font-size: 2vw;
+	color: #fff;
+	text-align: center;
+}
+
+/* Earth */
+
+.earth-container {
+    position: relative;
+	width: 20%;
+}
+
+.earth-container:before{
+	content: "";
+	display: block;
+	padding-top: 100%; 	/* initial ratio of 1:1 */
+}
+
+.earth-object {
+	background: url(../img/earth.png) no-repeat;
+	background-size: contain;
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
