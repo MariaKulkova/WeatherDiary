@@ -1,8 +1,11 @@
 {
     "compilerOptions": {
-        "sourceMap":  true
+        "sourceMap":  true,
+        "module": "es6",
+        "target": "es6",
+        "outDir": "scripts/js"
     },
     "include": [
-        "scripts/*.ts"
+        "scripts/app/*.ts"
     ]
 }

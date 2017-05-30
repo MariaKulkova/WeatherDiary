@@ -1,0 +1,10 @@
+.sun-slider-container {
+  position: absolute;
+  overflow: visible;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.sun:hover {
+  cursor: pointer;
+}
+
