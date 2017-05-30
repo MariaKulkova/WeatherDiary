@@ -267,8 +267,7 @@
 .compass-wrapper {
     width: 30%;
     position: absolute;
-    right: -5%;
-    top: 35%;
+    right: -5%; top: 32%;
 }
 
 .compass-wrapper:before {
@@ -427,7 +426,8 @@
 
 .save-button {
     position: absolute;
-    bottom: 25%; right: -15%;
+    z-index: 1;
+    bottom: 15%; right: 0;
     width: 20%; height: 7%;
 	background-color: #11B511;
     border: none;
