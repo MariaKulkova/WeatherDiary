@@ -31,8 +31,8 @@ function setFragmentLoadedCallback(tag, callback) {
 var fragmentMap = {
     "#stat": "statistics.html",
     "#profile": "profile.html",
-    "#island": "conditions.html",
-    "": "conditions.html"
+    "#island": "island.html",
+    "": "island.html"
 }
 
 function updateFragment(tag) {
@@ -40,7 +40,7 @@ function updateFragment(tag) {
     loadFragment(fragmentMap[tag], ".content-section")
 }
 
-setFragmentLoadedCallback("conditions.html", () => {
+setFragmentLoadedCallback("island.html", () => {
     console.log("Island intialize")
     Kinvey.initializeKinvey(function(succeeded) {
         if (succeeded) {
