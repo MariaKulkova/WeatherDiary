@@ -7,8 +7,8 @@ class LoginForm {
         let form = $(this.container);
         form.submit((e) => {
             e.preventDefault();
-            let username = $("#login-username").value;
-            let password = $("#login-password").value;
+            let username = $("#login-username").val();
+            let password = $("#login-password").val();
             this.authManager.login(username, password, (succeeded) => {
                 if (succeeded) {
                     window.location.assign("/home.html");
@@ -21,11 +21,7 @@ class LoginForm {
     }
 }
 $(() => {
-    // Kinvey.initializeKinvey((succeeded: boolean, activeUser: any) => {
-    //     if (succeeded && activeUser != null) {
-    //         window.location.assign("/home.html")
-    //     }
-    // })
+    Kinvey.initializeKinvey();
     let loginActionForm = document.getElementById("login-action-form");
     console.log(loginActionForm);
     let manager = new Kinvey.AuthManager();

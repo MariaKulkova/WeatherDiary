@@ -35,6 +35,7 @@ namespace Kinvey {
         // Takes username and password
         // Uses callback to notify about results
         login(username: string, password: string, completed: (succeeded: boolean) => void): void {
+            console.log("Login performed")
             var promise = Kinvey.User.login({
                 username: username,
                 password: password
@@ -46,12 +47,14 @@ namespace Kinvey {
             })
         }
 
-        logout() {
+        logout(completed: (succeeded: boolean) => void): void {
             let promise = Kinvey.User.logout();
             promise = promise.then(function onSuccess() {
-                console.log("Log out!")
+                console.log("Logout was performed successfully")
+                completed(true)
             }).catch(function onError(error) {
-            // ...
+                console.log("Error occured during logout. Reason: ", error)
+                completed(false)
             });
         }
     }
