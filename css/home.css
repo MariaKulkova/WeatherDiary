@@ -95,7 +95,7 @@ body {
 /* Menu icon */
 
 .nav-item-main {
-    height: 60px;
+    height: 80px;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
@@ -125,35 +125,35 @@ body {
 /* Statistis item */
 
 #statistics-nav-item {
-    background: url(../img/island-icon.png) no-repeat;
+    background: url(../img/statistics-icon.png) no-repeat;
     background-size: contain;
 }
 
 .nav-item:hover #statistics-nav-item {
-    background: url(../img/island-icon-selected.png) no-repeat;
+    background: url(../img/statistics-icon-selected.png) no-repeat;
     background-size: contain;
 }
 
 /* Profile item */
 
 #profile-nav-item {
-    background: url(../img/island-icon.png) no-repeat;
+    background: url(../img/profile-icon.png) no-repeat;
     background-size: contain;
 }
 
 .nav-item:hover #profile-nav-item {
-    background: url(../img/island-icon-selected.png) no-repeat;
+    background: url(../img/profile-icon-selected.png) no-repeat;
     background-size: contain;
 }
 
 /* Logout item */
 
 #logout-nav-item {
-    background: url(../img/island-icon.png) no-repeat;
+    background: url(../img/earth-icon.png) no-repeat;
     background-size: contain;
 }
 
 .nav-item:hover #logout-nav-item {
-    background: url(../img/island-icon-selected.png) no-repeat;
+    background: url(../img/earth-icon-selected.png) no-repeat;
     background-size: contain;
 }
