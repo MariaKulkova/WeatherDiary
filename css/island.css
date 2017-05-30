@@ -19,7 +19,7 @@
     position: relative;
     width: 100%;
 	margin: 0 auto 40px;
-	padding: 10px 0 10px;
+	padding: 20px 0 10px;
 	box-sizing: border-box;
 }
 
@@ -28,7 +28,7 @@
 	font-family: exo2-bold;
 	font-size: 24px;
 	color: #FFF;
-	margin: 0px 0px 0px 20px;
+	margin: 0px 0px 0px 30px;
 }
 
 .header-date {

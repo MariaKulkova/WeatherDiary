@@ -43,8 +43,20 @@ setFragmentLoadedCallback("island.html", () => {
     });
 });
 $(() => {
-    $(".nav-item").click(function () {
+    $(".menu-link").click(function () {
         updateFragment($(this).attr('href'));
+    });
+    $("#bottom-nav-item").click((e) => {
+        console.log("Logout was tapped");
+        let manager = new Kinvey.AuthManager();
+        manager.logout((succeeded) => {
+            if (succeeded) {
+                window.location.assign("/login.html");
+            }
+            else {
+                alert("Can't log out. Please, try again later");
+            }
+        });
     });
     updateFragment(window.location.hash);
 });
