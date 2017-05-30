@@ -59,10 +59,12 @@ var Kinvey;
         fetchCondition(date, completed) {
             let activeUser = Kinvey.User.getActiveUser();
             let query = new Kinvey.Query();
-            query.equalTo("userId", activeUser.data._id);
+            query.equalTo("_acl.creator", activeUser.data._id);
+            query.equalTo("date", date.toISOString());
             let dataStore = Kinvey.DataStore.collection("conditions", Kinvey.DataStoreType.Network);
             let stream = dataStore.find(query);
             stream.subscribe(function onNext(entities) {
+                console.log("Fetched condition: ", entities[0]);
                 completed(entities[0]);
             }, function onError(error) {
                 // Show error
@@ -73,10 +75,14 @@ var Kinvey;
             let dataStore = Kinvey.DataStore.collection("conditions", Kinvey.DataStoreType.Network);
             var promise = dataStore.save(condition).then(function onSuccess(entity) {
                 console.log("Successfully saved: " + entity);
-                completed(true);
+                if (completed) {
+                    completed(true);
+                }
             }).catch(function onError(error) {
                 console.log("Error occured during entity saving" + error);
-                completed(false, error);
+                if (completed) {
+                    completed(false, error);
+                }
             });
         }
     }
