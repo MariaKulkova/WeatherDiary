@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "chartjs": "registry:dt/chartjs#0.0.0+20160510002910",
     "handlebars": "registry:dt/handlebars#4.0.5+20170310072326",
     "jquery": "registry:dt/jquery#1.10.0+20170310222111"
   },

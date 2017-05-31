@@ -51,6 +51,12 @@ setFragmentLoadedCallback("island.html", () => {
     })
 })
 
+setFragmentLoadedCallback("statistics.html", () => {
+    console.log("Statistics intialize")
+    let stat = new Statistcis()
+    stat.render()
+})
+
 $(() => {
     $(".menu-link").click(function() {
         updateFragment($(this).attr('href'))
