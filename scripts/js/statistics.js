@@ -1,14 +1,8 @@
 /// <reference path="../typings/jquery.d.ts"/>
-// class ChartData implements LinearChartData {
-//     labels: string[]
-//     datasets: CustomChartDataSet[]
-// }
-// class CustomChartDataSet implements ChartDataSet {
-//     label: string
-//     fillColor: string
-//     strokeColor: string
-//     data: number[]
-// }
+class ChartDataSet {
+}
+class ChartData {
+}
 class Statistcis {
     render() {
         let canvas = $("#myChart");
@@ -28,7 +22,7 @@ class Statistcis {
                     }]
             },
             // Configuration options go here
-            options: {}
+            options: { maintainAspectRatio: false }
         });
     }
 }

@@ -1,5 +1,43 @@
-.chart-container {
+.chart-section {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 10%; left: 5%; right: 5%; bottom: 5%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+/* Header */
+
+.header {
+    position: relative;
+    width: 100%;
+	margin: 0 auto 40px;
+	padding: 20px 0 10px;
+	box-sizing: border-box;
+}
+
+.header-title {
+    position: absolute;
+	font-family: exo2-bold;
+	font-size: 24px;
+	color: #FFF;
+	margin: 0px 0px 0px 30px;
+}
+
+/* Charts settings */
+
+.chart-settings-container {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 0 0 30%;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.card {
+    flex-grow: 1;
     background-color: #FFF;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
 }

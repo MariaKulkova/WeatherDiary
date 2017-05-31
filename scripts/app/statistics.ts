@@ -35,7 +35,7 @@ class Statistcis {
             },
 
             // Configuration options go here
-            options: {}
+            options: { maintainAspectRatio: false }
         });
     }
 }
