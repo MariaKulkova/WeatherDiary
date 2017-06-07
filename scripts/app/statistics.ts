@@ -28,8 +28,8 @@ class Statistcis {
                 labels: ["January", "February", "March", "April", "May", "June", "July"],
                 datasets: [{
                     label: "My First dataset",
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(173, 207, 45, 0.3)',
+                    borderColor: 'rgb(173, 207, 45)',
                     data: [0, 10, 5, 2, 20, 30, 45],
                 }]
             },
