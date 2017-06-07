@@ -1,3 +1,13 @@
+@font-face {
+	font-family: cuprum-regular;
+	src: url(../fonts/cuprum_regular.ttf);
+}
+
+@font-face {
+	font-family: cuprum-bold;
+	src: url(../fonts/Cuprum-Bold.ttf);
+}
+
 .chart-section {
     position: absolute;
     top: 10%; left: 5%; right: 5%; bottom: 5%;
@@ -23,12 +33,12 @@
 	margin: 0px 0px 0px 30px;
 }
 
-/* Charts settings */
+/* Cards */
 
 .card {
     flex-grow: 1;
     background-color: #FFF;
-    padding: 10px;
+    padding: 0px;
     margin: 10px;
     border-radius: 10px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
@@ -54,4 +64,52 @@
 
 .settings-container {
     flex-grow: 3;
+}
+
+/* Common settings */
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #95989A;
+}
+
+/* Type container */
+
+.types-container {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.type-item {
+    flex-grow: 1;
+}
+
+label {
+    font-family: cuprum-regular;
+    color: #6F6F6F;
+}
+
+/* Custom radio button */
+
+input[type="radio"] {
+    display:none;
+}
+
+label:before {
+    display: inline-block;
+    content: "";
+    width: 19px;
+    height: 19px;
+    margin: -2px 10px 0 0;
+    vertical-align: middle;
+    background: url("../img/radio-usual.png") no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+input[type=radio]:checked + label:before {
+    background: url("../img/radio-selected.png") no-repeat;
+    background-size: contain;
+
 }
