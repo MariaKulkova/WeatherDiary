@@ -25,6 +25,21 @@
 
 /* Charts settings */
 
+.card {
+    flex-grow: 1;
+    background-color: #FFF;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.chart-container {
+    position: relative;
+    height: 40vh;
+    padding: 25px;
+}
+
 .chart-settings-container {
     display: flex;
     flex-flow: row nowrap;
@@ -33,11 +48,10 @@
     justify-content: space-between;
 }
 
-.card {
+.chart-type-container {
     flex-grow: 1;
-    background-color: #FFF;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.settings-container {
+    flex-grow: 3;
 }

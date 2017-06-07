@@ -30,12 +30,17 @@ class Statistcis {
                     label: "My First dataset",
                     backgroundColor: 'rgba(173, 207, 45, 0.3)',
                     borderColor: 'rgb(173, 207, 45)',
-                    data: [0, 10, 5, 2, 20, 30, 45],
-                }]
+                    data: [10, 50, 30, 10, 20, 50, 20],
+                }],
             },
 
             // Configuration options go here
-            options: { maintainAspectRatio: false }
+            options: { 
+                maintainAspectRatio: false,
+                legend: {
+                    display: false,
+                } 
+            }
         });
     }
 }
