@@ -92,7 +92,14 @@ class IslandArea {
             e.preventDefault();
             this.weatherCondition.date = this.selectedDate;
             console.log("Save button tapped. Saved object: " + this.weatherCondition);
-            this.conditionsManager.saveCondition(this.weatherCondition);
+            this.conditionsManager.saveCondition(this.weatherCondition, (succeeded, error) => {
+                if (succeeded) {
+                    saveButton.attr("value", "ОБНОВИТЬ");
+                }
+                else if (error != null) {
+                    alert("Error occured. Reason: " + error);
+                }
+            });
         });
     }
     // Initializes and renders programmatically created elements
@@ -135,6 +142,8 @@ class IslandArea {
             else {
                 this.weatherCondition = new Kinvey.WeatherCondition();
             }
+            let saveButton = $(".save-button");
+            saveButton.attr("value", condition ? "ОБНОВИТЬ" : "ЗАПИСАТЬ");
             this.initializeStartValues();
         });
     }
