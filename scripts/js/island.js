@@ -29,6 +29,7 @@ class IslandArea {
         this.skyMinColor = new ColorRGB(95, 201, 226);
         this.skyMaxColor = new ColorRGB(0, 206, 255);
         this.conditionsManager = conditionsManager;
+        this.selectedDate.setHours(0, 0, 0, 0);
         $(".header-date").html(this.formattedStringFromDate(this.selectedDate));
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({

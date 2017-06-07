@@ -49,6 +49,7 @@ class IslandArea {
 
     constructor(conditionsManager: Kinvey.WeatherConditionsManager) {
         this.conditionsManager = conditionsManager
+        this.selectedDate.setHours(0, 0, 0, 0)
         $(".header-date").html(this.formattedStringFromDate(this.selectedDate))
 
         // Set up datepicker to present russian labels and date formats
