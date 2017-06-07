@@ -1,5 +1,7 @@
 declare var Chart: any; 
 /// <reference path="../typings/jquery.d.ts"/>
+/// <reference path="./KinveyStat.ts"/>
+/// <reference path="./chartsDrawer.ts"/>
 
 class ChartDataSet {
     label: string
@@ -14,33 +16,21 @@ class ChartData {
 }
 
 class Statistcis {
+    public statManager: Kinvey.StatisticsManager
+
+    constructor(manager: Kinvey.StatisticsManager) {
+        this.statManager = manager
+    }
+
     render() {
         let canvas: any = $("#myChart")
         var ctx = canvas[0].getContext("2d")
-        console.log(ctx)
-
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
-                datasets: [{
-                    label: "My First dataset",
-                    backgroundColor: 'rgba(173, 207, 45, 0.3)',
-                    borderColor: 'rgb(173, 207, 45)',
-                    data: [10, 50, 30, 10, 20, 50, 20],
-                }],
-            },
-
-            // Configuration options go here
-            options: { 
-                maintainAspectRatio: false,
-                legend: {
-                    display: false,
-                } 
-            }
-        });
+        ChartsDraw.ChartsHelper.drawLineChart(ctx, new Date(), new Date())
+        
+        let startDate = new Date(2017, 4, 1)
+        console.log(startDate.toISOString())
+        this.statManager.fetchCondition(startDate, (conditions: Kinvey.StatData[], error: string) => {
+            ChartsDraw.ChartsHelper.drawLineChart(ctx, startDate, new Date(), conditions)
+        })
     }
 }
