@@ -49,11 +49,9 @@ namespace ChartsDraw {
             let values: number[] = []
             for (let tempDate = new Date(startDate); tempDate <= endDate; tempDate = this.addDaysToDate(tempDate, 1)) {
                 let item = rawValues.find(obj => obj.date.valueOf() == tempDate.valueOf())
+                 console.log(item)
                 if (item) {
                     values.push(item.value)
-                }
-                else if (values.length != 0) {
-                    values.push(values[values.length - 1])
                 }
                 else {
                     values.push(0)

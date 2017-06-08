@@ -27,10 +27,17 @@ class Statistcis {
         var ctx = canvas[0].getContext("2d")
         ChartsDraw.ChartsHelper.drawLineChart(ctx, new Date(), new Date())
         
-        let startDate = new Date(2017, 4, 1)
-        console.log(startDate.toISOString())
-        this.statManager.fetchCondition(startDate, (conditions: Kinvey.StatData[], error: string) => {
-            ChartsDraw.ChartsHelper.drawLineChart(ctx, startDate, new Date(), conditions)
+        // Set up save button
+        let drawButton = $(".draw-button")
+        drawButton.on("click", (e: BaseJQueryEventObject) => {
+            e.preventDefault()
+            let startDate = new Date($("#range-start").val())
+            startDate.setHours(0, 0, 0, 0)
+            let endDate = new Date($("#range-end").val())
+            endDate.setHours(0, 0, 0, 0)
+            this.statManager.fetchCondition(startDate, endDate, (conditions: Kinvey.StatData[], error: string) => {
+                ChartsDraw.ChartsHelper.drawLineChart(ctx, startDate, endDate, conditions)
+            })
         })
     }
 }
