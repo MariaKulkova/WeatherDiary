@@ -8,6 +8,10 @@
 	src: url(../fonts/Cuprum-Bold.ttf);
 }
 
+button:focus, input:focus, select:focus {
+	outline: 0;
+}
+
 .chart-section {
     position: absolute;
     top: 10%; left: 5%; right: 5%; bottom: 5%;
@@ -37,6 +41,8 @@
 
 .card {
     flex-grow: 1;
+    display: flex;
+    flex-flow: column nowrap;
     background-color: #FFF;
     padding: 0px;
     margin: 10px;
@@ -56,6 +62,8 @@
     flex: 0 0 30%;
     align-items: stretch;
     justify-content: space-between;
+    min-height: 200px;
+    min-width: 1000px;
 }
 
 .chart-type-container {
@@ -68,10 +76,12 @@
 
 /* Common settings */
 
-hr {
-    border: 0;
-    height: 1px;
-    background: #95989A;
+.card-title {
+    font-family: cuprum-bold;
+    color: #000;
+    padding-left: 20px;
+    flex-grow: 1;
+    border-bottom: thin solid #95989A;
 }
 
 /* Type container */
@@ -79,10 +89,15 @@ hr {
 .types-container {
     display: flex;
     flex-flow: column wrap;
+    flex-grow: 5;
+    padding-left: 20px;
 }
 
 .type-item {
     flex-grow: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
 }
 
 label {
@@ -96,7 +111,7 @@ input[type="radio"] {
     display:none;
 }
 
-label:before {
+.radio-label:before {
     display: inline-block;
     content: "";
     width: 19px;
@@ -108,8 +123,84 @@ label:before {
     cursor: pointer;
 }
 
-input[type=radio]:checked + label:before {
+input[type=radio]:checked + .radio-label:before {
     background: url("../img/radio-selected.png") no-repeat;
     background-size: contain;
+}
 
+/* Settings container */
+
+.params-area {
+    flex-grow: 5;
+    display: flex;
+    flex-flow: row wrap;
+    padding-left: 20px;
+}
+
+.params-area-block {
+    flex-grow: 2;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0 10px 0 10px;
+}
+
+.confirm-block {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+.params-block-title {
+    font-family: cuprum-regular;
+    color: #000;
+    margin: 0 0 10px 0;
+}
+
+/* Custom selector */
+
+.condition-selector {
+    flex-grow: 1;
+    margin-left: 10px;
+    border: 1px solid #6F6F6F;
+    background: url("../img/selector-arrow.png") no-repeat right;
+    background-size: contain;
+    height: 25px;
+    -webkit-appearance: none;
+    font-size: 11pt;
+    font-family: cuprum-regular;
+    color: #000;
+    padding-left: 5px;
+}
+
+.date-selector {
+    flex-grow: 1;
+    margin-left: 10px;
+    font-size: 11pt;
+    font-family: cuprum-regular;
+    color: #000;
+    padding-left: 5px;
+    border: 1px solid #6F6F6F;
+    border-radius: 4px;
+    height: 25px;
+}
+
+/* Draw button */
+
+.draw-button {
+    flex-grow: 1;
+    height: 25%;
+    min-height: 40px;
+    margin: 20px;
+	background-color: #11B511;
+    border: none;
+    border-radius: 12px;
+    font-family: cuprum-regular;
+    font-size: 1.2vw;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.draw-button:active {
+    box-shadow: none;
 }
