@@ -50,7 +50,7 @@ class IslandArea {
     constructor(conditionsManager: Kinvey.WeatherConditionsManager) {
         this.conditionsManager = conditionsManager
         this.selectedDate.setHours(0, 0, 0, 0)
-        $(".header-date").html(this.formattedStringFromDate(this.selectedDate))
+        $(".header-date-value").html(this.formattedStringFromDate(this.selectedDate))
 
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
@@ -65,7 +65,7 @@ class IslandArea {
             onSelect: () => {
                 let currentDatepicker = $("#datepicker")
                 let dateString = currentDatepicker.val()
-                $(".header-date").html(dateString)
+                $(".header-date-value").html(dateString)
                 $(".modal").css("display", "none")
                 this.selectedDate = currentDatepicker.datepicker("getDate")
                 this.fetchConditionsData()
@@ -119,10 +119,7 @@ class IslandArea {
             this.weatherCondition.date = this.selectedDate
             console.log("Save button tapped. Saved object: " + this.weatherCondition)
             this.conditionsManager.saveCondition(this.weatherCondition, (succeeded: boolean, error: string) => {
-                if (succeeded) {
-                    saveButton.attr("value", "ОБНОВИТЬ")
-                }
-                else if (error != null) {
+                if (error != null) {
                     alert("Error occured. Reason: " + error)
                 }
             })
@@ -184,7 +181,6 @@ class IslandArea {
                 this.weatherCondition = new Kinvey.WeatherCondition()
             }
             let saveButton = $(".save-button")
-            saveButton.attr("value", condition ? "ОБНОВИТЬ" : "ЗАПИСАТЬ")
             this.initializeStartValues()
         })
     }

@@ -41,6 +41,23 @@
     color: #FFF;
 }
 
+.header-date-value {
+    display: inline-block;
+    margin: 0;
+}
+
+.date-select-indicator {
+    background: url(../img/date-selection-indicator.png) no-repeat;
+	background-size: contain;
+    cursor: pointer;
+    border: none;
+    width: 14px;
+    height: 8px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3px;
+}
+
 .header-date:hover {
     cursor: pointer;
 }
