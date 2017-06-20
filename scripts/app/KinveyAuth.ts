@@ -25,9 +25,9 @@ namespace Kinvey {
                 username: username,
                 password: password
             }).then(function onSuccess(user) {
-                console.log("sign up! " + user);
+                console.log("User signed up successfully: " + user);
             }).catch(function onError(error) {
-            // ...
+                console.log("User signup failed. Reason: ", error)
             });
         }
 

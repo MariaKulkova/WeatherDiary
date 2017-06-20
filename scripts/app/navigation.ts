@@ -1,4 +1,5 @@
 /// <reference path="./KinveyAuth.ts"/>
+/// <reference path="./KinveyStat.ts"/>
 /// <reference path="./island.ts"/>
 
 var currentFragment = ""
@@ -47,6 +48,17 @@ setFragmentLoadedCallback("island.html", () => {
             let manager = new Kinvey.WeatherConditionsManager()
             let island = new IslandArea(manager)
             island.render()
+        }
+    })
+})
+
+setFragmentLoadedCallback("statistics.html", () => {
+    console.log("Statistics intialize")
+    Kinvey.initializeKinvey(function(succeeded) {
+        if (succeeded) {
+            let manager = new Kinvey.StatisticsManager()
+            let stat = new Statistcis(manager)
+            stat.render()
         }
     })
 })

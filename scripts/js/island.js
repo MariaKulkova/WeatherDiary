@@ -29,6 +29,7 @@ class IslandArea {
         this.skyMinColor = new ColorRGB(95, 201, 226);
         this.skyMaxColor = new ColorRGB(0, 206, 255);
         this.conditionsManager = conditionsManager;
+        this.selectedDate.setHours(0, 0, 0, 0);
         $(".header-date").html(this.formattedStringFromDate(this.selectedDate));
         // Set up datepicker to present russian labels and date formats
         $("#datepicker").datepicker({
@@ -91,7 +92,14 @@ class IslandArea {
             e.preventDefault();
             this.weatherCondition.date = this.selectedDate;
             console.log("Save button tapped. Saved object: " + this.weatherCondition);
-            this.conditionsManager.saveCondition(this.weatherCondition);
+            this.conditionsManager.saveCondition(this.weatherCondition, (succeeded, error) => {
+                if (succeeded) {
+                    saveButton.attr("value", "ОБНОВИТЬ");
+                }
+                else if (error != null) {
+                    alert("Error occured. Reason: " + error);
+                }
+            });
         });
     }
     // Initializes and renders programmatically created elements
@@ -134,6 +142,8 @@ class IslandArea {
             else {
                 this.weatherCondition = new Kinvey.WeatherCondition();
             }
+            let saveButton = $(".save-button");
+            saveButton.attr("value", condition ? "ОБНОВИТЬ" : "ЗАПИСАТЬ");
             this.initializeStartValues();
         });
     }

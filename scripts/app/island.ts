@@ -49,6 +49,7 @@ class IslandArea {
 
     constructor(conditionsManager: Kinvey.WeatherConditionsManager) {
         this.conditionsManager = conditionsManager
+        this.selectedDate.setHours(0, 0, 0, 0)
         $(".header-date").html(this.formattedStringFromDate(this.selectedDate))
 
         // Set up datepicker to present russian labels and date formats
@@ -117,7 +118,14 @@ class IslandArea {
             e.preventDefault()
             this.weatherCondition.date = this.selectedDate
             console.log("Save button tapped. Saved object: " + this.weatherCondition)
-            this.conditionsManager.saveCondition(this.weatherCondition)
+            this.conditionsManager.saveCondition(this.weatherCondition, (succeeded: boolean, error: string) => {
+                if (succeeded) {
+                    saveButton.attr("value", "ОБНОВИТЬ")
+                }
+                else if (error != null) {
+                    alert("Error occured. Reason: " + error)
+                }
+            })
         })
     }
     
@@ -175,6 +183,8 @@ class IslandArea {
             else {
                 this.weatherCondition = new Kinvey.WeatherCondition()
             }
+            let saveButton = $(".save-button")
+            saveButton.attr("value", condition ? "ОБНОВИТЬ" : "ЗАПИСАТЬ")
             this.initializeStartValues()
         })
     }
